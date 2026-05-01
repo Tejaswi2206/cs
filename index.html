@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSc CS Prep Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior:smooth; color-scheme:dark; }
+
+body {
+background-color: #0b0e17;
+color: #f0f4ff;
+font-family: ‘DM Mono’, monospace;
+font-size: 13px;
+line-height: 1.6;
+min-height: 100vh;
+overflow-x: hidden;
+-webkit-text-size-adjust: 100%;
+}
+
+h1,h2,h3 { color: #f0f4ff; }
+a { color: #f0f4ff; text-decoration: none; }
+input, select, textarea, button { font-family: ‘DM Mono’, monospace; color: #f0f4ff; }
+
+body::before {
+content:’’; position:fixed; inset:0; z-index:0; pointer-events:none;
+background-image: url(“data:image/svg+xml,%3Csvg viewBox=‘0 0 512 512’ xmlns=‘http://www.w3.org/2000/svg’%3E%3Cfilter id=‘n’%3E%3CfeTurbulence type=‘fractalNoise’ baseFrequency=‘0.75’ numOctaves=‘4’ stitchTiles=‘stitch’/%3E%3C/filter%3E%3Crect width=‘100%25’ height=‘100%25’ filter=‘url(%23n)’ opacity=‘0.03’/%3E%3C/svg%3E”);
+}
+
+body::after {
+content:’’; position:fixed; top:-200px; left:50%; transform:translateX(-50%);
+width:800px; height:500px; border-radius:50%;
+background:radial-gradient(ellipse, rgba(91,155,255,0.07) 0%, transparent 70%);
+pointer-events:none; z-index:0;
+}
+
+.wrap { max-width:960px; margin:0 auto; padding:40px 20px 80px; position:relative; z-index:1; }
+
+/* HEADER */
+.header { margin-bottom:40px; }
+.header-top { display:flex; align-items:flex-start; justify-content:space-between; flex-wrap:wrap; gap:16px; }
+
+.badge {
+display:inline-flex; align-items:center; gap:7px;
+background:rgba(91,155,255,0.12); border:1px solid rgba(91,155,255,0.35);
+color:#7ab4ff; font-size:10px; letter-spacing:.1em; text-transform:uppercase;
+padding:5px 14px; border-radius:3px; margin-bottom:14px;
+}
+.badge-dot { width:6px; height:6px; border-radius:50%; background:#5b9bff; animation:pulse 2s infinite; }
+@keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.3} }
+
+h1 { font-family:‘Syne’,sans-serif; font-size:clamp(2rem,6vw,3.2rem); font-weight:800; line-height:1.05; margin-bottom:8px; color:#f0f4ff; }
+h1 em { font-style:normal; color:#5b9bff; }
+.sub { color:#8b95b5; font-size:12px; }
+
+.btn-clear {
+display:flex; align-items:center; gap:8px;
+background:rgba(255,107,107,0.1); border:1px solid rgba(255,107,107,0.4);
+color:#ff6b6b; padding:10px 18px; border-radius:6px;
+cursor:pointer; font-size:12px; transition:.2s; white-space:nowrap;
+}
+.btn-clear:hover { background:rgba(255,107,107,0.22); }
+
+/* STATS */
+.stats-row { display:grid; grid-template-columns:repeat(4,1fr); gap:10px; margin-bottom:32px; }
+.stat-card { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:16px 12px; text-align:center; position:relative; overflow:hidden; }
+.stat-card::after { content:’’; position:absolute; bottom:0; left:0; right:0; height:2px; }
+.stat-card.s1::after { background:#5b9bff; }
+.stat-card.s2::after { background:#3ee897; }
+.stat-card.s3::after { background:#ffd166; }
+.stat-card.s4::after { background:#c084fc; }
+.stat-num { font-family:‘Syne’,sans-serif; font-size:1.6rem; font-weight:800; line-height:1; margin-bottom:4px; }
+.stat-card.s1 .stat-num { color:#5b9bff; }
+.stat-card.s2 .stat-num { color:#3ee897; }
+.stat-card.s3 .stat-num { color:#ffd166; }
+.stat-card.s4 .stat-num { color:#c084fc; }
+.stat-label { color:#8b95b5; font-size:10px; text-transform:uppercase; letter-spacing:.08em; }
+
+/* PROGRESS */
+.overall-progress { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:20px; margin-bottom:32px; }
+.prog-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; }
+.prog-title { font-family:‘Syne’,sans-serif; font-weight:700; font-size:.95rem; color:#f0f4ff; }
+.prog-pct { color:#5b9bff; font-size:1.1rem; font-weight:600; }
+.prog-bar-bg { background:#1e2438; border-radius:4px; height:8px; overflow:hidden; border:1px solid #2a3150; }
+.prog-bar-fill { height:100%; border-radius:4px; background:linear-gradient(90deg,#5b9bff,#3ee897); transition:width .6s cubic-bezier(.4,0,.2,1); }
+.prog-phases { display:flex; gap:6px; margin-top:10px; flex-wrap:wrap; }
+.phase-pip { font-size:10px; padding:3px 10px; border-radius:20px; border:1px solid #2a3150; color:#8b95b5; display:inline-flex; align-items:center; gap:4px; }
+
+/* TABS */
+.tabs { display:flex; gap:2px; margin-bottom:24px; border-bottom:1px solid #2a3150; overflow-x:auto; -webkit-overflow-scrolling:touch; }
+.tab { padding:10px 18px; cursor:pointer; font-size:12px; color:#8b95b5; border-bottom:2px solid transparent; margin-bottom:-1px; transition:.2s; white-space:nowrap; }
+.tab.active { color:#f0f4ff; border-bottom-color:#5b9bff; }
+.tab:hover:not(.active) { color:#c8d0e8; }
+.tab-content { display:none; }
+.tab-content.active { display:block; }
+
+/* SECTION HEADER */
+.sec-hdr { display:flex; align-items:center; gap:12px; margin-bottom:14px; margin-top:28px; }
+.sec-hdr:first-child { margin-top:0; }
+.sec-num { font-size:10px; color:#5a6484; text-transform:uppercase; letter-spacing:.1em; }
+.sec-title { font-family:‘Syne’,sans-serif; font-weight:700; font-size:1rem; color:#f0f4ff; }
+.sec-line { flex:1; height:1px; background:#2a3150; }
+
+/* TASK CARDS */
+.task-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:10px; }
+.task-card { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:15px; cursor:pointer; transition:.2s; position:relative; overflow:hidden; user-select:none; }
+.task-card:hover { border-color:#3a4870; transform:translateY(-1px); }
+.task-card.done { border-color:rgba(62,232,151,0.45); background:rgba(62,232,151,0.05); }
+.task-card.done::after { content:‘✓’; position:absolute; top:6px; right:10px; color:#3ee897; font-size:11px; font-weight:700; }
+
+.task-top { display:flex; align-items:flex-start; gap:10px; }
+.task-check { width:18px; height:18px; border-radius:4px; border:1.5px solid #3a4870; flex-shrink:0; margin-top:2px; display:flex; align-items:center; justify-content:center; transition:.2s; }
+.task-card.done .task-check { background:#3ee897; border-color:#3ee897; }
+.task-check svg { opacity:0; transition:.15s; }
+.task-card.done .task-check svg { opacity:1; }
+
+.task-phase { font-size:9px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:3px; font-weight:500; }
+.task-name { font-family:‘Syne’,sans-serif; font-weight:600; font-size:.87rem; line-height:1.3; color:#f0f4ff; }
+.task-sub { color:#8b95b5; font-size:11px; margin-top:4px; }
+.task-date { font-size:10px; color:#3ee897; margin-top:6px; }
+
+.p-python .task-phase   { color:#5b9bff; }
+.p-sql .task-phase      { color:#3ee897; }
+.p-ml .task-phase       { color:#ff6b6b; }
+.p-os .task-phase       { color:#ffd166; }
+.p-security .task-phase { color:#c084fc; }
+.p-embedded .task-phase { color:#fb923c; }
+.p-research .task-phase { color:#8b95b5; }
+
+/* LOG */
+.log-form { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:20px; margin-bottom:16px; }
+.log-form-title { font-family:‘Syne’,sans-serif; font-weight:700; font-size:1rem; color:#f0f4ff; margin-bottom:14px; }
+.log-row { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px; }
+.log-single { margin-bottom:10px; }
+
+.log-input, .log-select, .log-textarea {
+background:#111520; border:1px solid #2a3150; color:#f0f4ff; font-size:12px;
+padding:10px 12px; border-radius:6px; outline:none; transition:border-color .2s; width:100%;
+}
+.log-input:focus, .log-select:focus, .log-textarea:focus { border-color:#5b9bff; }
+.log-input::placeholder, .log-textarea::placeholder { color:#5a6484; }
+.log-textarea { resize:vertical; min-height:70px; }
+.log-select option { background:#181d2e; color:#f0f4ff; }
+
+.btn-log { background:#5b9bff; color:#fff; border:none; padding:10px 24px; border-radius:6px; cursor:pointer; font-size:12px; font-weight:500; transition:.2s; }
+.btn-log:hover { background:#4a8af0; }
+
+.log-entries { display:flex; flex-direction:column; gap:8px; }
+.log-entry { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:14px 16px; display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:start; animation:fadeIn .3s ease; }
+@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:none} }
+.log-entry-date { font-size:10px; color:#8b95b5; text-transform:uppercase; letter-spacing:.08em; padding-top:2px; white-space:nowrap; }
+.log-entry-topic { font-size:9px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:3px; font-weight:500; color:#5b9bff; }
+.log-entry-note { font-size:12px; color:#f0f4ff; }
+.log-entry-hrs { font-family:‘Syne’,sans-serif; font-size:.9rem; font-weight:700; color:#3ee897; }
+.log-empty { color:#8b95b5; font-size:12px; text-align:center; padding:40px 0; }
+
+/* RESOURCES */
+.res-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(270px,1fr)); gap:10px; }
+.res-card { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:16px; position:relative; overflow:hidden; transition:.2s; }
+.res-card:hover { transform:translateY(-2px); border-color:#3a4870; }
+.res-top-bar { position:absolute; top:0; left:0; right:0; height:2px; }
+.res-topic { font-size:9px; text-transform:uppercase; letter-spacing:.1em; margin-bottom:6px; font-weight:500; }
+.res-title { font-family:‘Syne’,sans-serif; font-weight:700; font-size:.9rem; margin-bottom:6px; color:#f0f4ff; }
+.res-desc { color:#8b95b5; font-size:11px; margin-bottom:12px; line-height:1.5; }
+.res-links { display:flex; flex-direction:column; gap:5px; }
+.res-link { display:flex; align-items:center; justify-content:space-between; background:rgba(255,255,255,0.04); border:1px solid #2a3150; border-radius:4px; padding:7px 10px; color:#f0f4ff; font-size:11px; transition:.15s; }
+.res-link:hover { background:rgba(255,255,255,0.09); border-color:#3a4870; }
+.lbadge { font-size:9px; padding:2px 6px; border-radius:2px; font-weight:500; flex-shrink:0; }
+.lb-free { background:rgba(62,232,151,0.15); color:#3ee897; }
+.lb-paid { background:rgba(255,107,107,0.15); color:#ff6b6b; }
+.lb-fx   { background:rgba(255,209,102,0.15); color:#ffd166; }
+
+.rc-python .res-top-bar { background:#5b9bff; }  .rc-python .res-topic { color:#5b9bff; }
+.rc-sql .res-top-bar    { background:#3ee897; }  .rc-sql .res-topic    { color:#3ee897; }
+.rc-ml .res-top-bar     { background:#ff6b6b; }  .rc-ml .res-topic     { color:#ff6b6b; }
+.rc-os .res-top-bar     { background:#ffd166; }  .rc-os .res-topic     { color:#ffd166; }
+.rc-sec .res-top-bar    { background:#c084fc; }  .rc-sec .res-topic    { color:#c084fc; }
+.rc-emb .res-top-bar    { background:#fb923c; }  .rc-emb .res-topic    { color:#fb923c; }
+
+/* TIMETABLE */
+.timeline { position:relative; padding-left:32px; }
+.timeline::before { content:’’; position:absolute; left:10px; top:0; bottom:0; width:1px; background:#2a3150; }
+.tl-item { position:relative; margin-bottom:18px; }
+.tl-dot { position:absolute; left:-26px; top:14px; width:10px; height:10px; border-radius:50%; border:2px solid #0b0e17; }
+.tl-card { background:#181d2e; border:1px solid #2a3150; border-radius:8px; padding:16px; position:relative; overflow:hidden; }
+.tl-bar { position:absolute; left:0; top:0; bottom:0; width:3px; }
+.tl-month { font-family:‘Syne’,sans-serif; font-weight:700; font-size:.85rem; margin-bottom:4px; color:#f0f4ff; }
+.tl-focus { color:#8b95b5; font-size:11px; margin-bottom:10px; }
+.tl-chips { display:flex; flex-wrap:wrap; gap:5px; }
+.chip { font-size:10px; padding:3px 10px; border-radius:20px; border:1px solid; white-space:nowrap; }
+.ch-py  { background:rgba(91,155,255,0.1);  border-color:rgba(91,155,255,0.4);  color:#7ab4ff; }
+.ch-sql { background:rgba(62,232,151,0.1);  border-color:rgba(62,232,151,0.4);  color:#3ee897; }
+.ch-os  { background:rgba(255,209,102,0.1); border-color:rgba(255,209,102,0.4); color:#ffd166; }
+.ch-ml  { background:rgba(255,107,107,0.1); border-color:rgba(255,107,107,0.4); color:#ff6b6b; }
+.ch-sec { background:rgba(192,132,252,0.1); border-color:rgba(192,132,252,0.4); color:#c084fc; }
+.ch-emb { background:rgba(251,146,60,0.1);  border-color:rgba(251,146,60,0.4);  color:#fb923c; }
+.ch-res { background:rgba(139,149,181,0.1); border-color:rgba(139,149,181,0.35);color:#8b95b5; }
+
+.daily-card { background:#181d2e; border:1px solid #2a3150; border-radius:8px; overflow:hidden; margin-top:14px; }
+.daily-row-t { display:grid; grid-template-columns:90px 1fr; border-bottom:1px solid #2a3150; }
+.daily-row-t:last-child { border-bottom:none; }
+.dr-time { padding:12px 14px; color:#5b9bff; font-size:11px; font-weight:500; border-right:1px solid #2a3150; display:flex; align-items:center; }
+.dr-task { padding:12px 14px; font-size:12px; color:#f0f4ff; display:flex; align-items:center; gap:8px; }
+.dr-dot  { width:6px; height:6px; border-radius:50%; flex-shrink:0; }
+
+/* MODAL */
+.modal-overlay { position:fixed; inset:0; background:rgba(0,0,0,.85); display:none; align-items:center; justify-content:center; z-index:100; backdrop-filter:blur(4px); }
+.modal-overlay.show { display:flex; }
+.modal { background:#181d2e; border:1px solid #3a4870; border-radius:12px; padding:28px 32px; max-width:380px; width:90%; text-align:center; }
+.modal h3 { font-family:‘Syne’,sans-serif; font-size:1.1rem; font-weight:700; color:#f0f4ff; margin-bottom:8px; }
+.modal p  { color:#8b95b5; font-size:12px; margin-bottom:20px; }
+.modal-btns { display:flex; gap:10px; justify-content:center; }
+.btn-cancel { background:#111520; border:1px solid #3a4870; color:#f0f4ff; padding:10px 22px; border-radius:6px; cursor:pointer; font-size:12px; transition:.2s; }
+.btn-cancel:hover { border-color:#8b95b5; }
+.btn-confirm-clear { background:rgba(255,107,107,0.15); border:1px solid #ff6b6b; color:#ff6b6b; padding:10px 22px; border-radius:6px; cursor:pointer; font-size:12px; transition:.2s; }
+.btn-confirm-clear:hover { background:rgba(255,107,107,0.3); }
+
+/* TOAST */
+.toast { position:fixed; bottom:30px; left:50%; transform:translateX(-50%) translateY(80px); background:#1e2438; border:1px solid #3a4870; color:#f0f4ff; padding:10px 22px; border-radius:8px; font-size:12px; transition:.3s cubic-bezier(.4,0,.2,1); z-index:200; white-space:nowrap; }
+.toast.show { transform:translateX(-50%) translateY(0); }
+
+@media(max-width:600px) {
+.stats-row { grid-template-columns:repeat(2,1fr); }
+.log-row   { grid-template-columns:1fr; }
+}
+</style>
+
+</head>
+<body>
+<div class="wrap">
+
+  <div class="header">
+    <div class="badge"><div class="badge-dot"></div>MSc Computer Science — Prep Tracker</div>
+    <div class="header-top">
+      <div>
+        <h1>Study <em>Tracker</em></h1>
+        <p class="sub">September 2026 Intake &nbsp;·&nbsp; Track every day &nbsp;·&nbsp; Stay consistent</p>
+      </div>
+      <button class="btn-clear" onclick="openClearModal()">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14H6L5 6"/><path d="M10 11v6M14 11v6"/><path d="M9 6V4h6v2"/></svg>
+        Clear All Data
+      </button>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card s1"><div class="stat-num" id="stat-tasks">0/25</div><div class="stat-label">Tasks Done</div></div>
+    <div class="stat-card s2"><div class="stat-num" id="stat-hours">0.0</div><div class="stat-label">Hours Logged</div></div>
+    <div class="stat-card s3"><div class="stat-num" id="stat-streak">0</div><div class="stat-label">Day Streak 🔥</div></div>
+    <div class="stat-card s4"><div class="stat-num" id="stat-logs">0</div><div class="stat-label">Log Entries</div></div>
+  </div>
+
+  <div class="overall-progress">
+    <div class="prog-header">
+      <span class="prog-title">Overall Preparation Progress</span>
+      <span class="prog-pct" id="prog-pct">0%</span>
+    </div>
+    <div class="prog-bar-bg"><div class="prog-bar-fill" id="prog-bar" style="width:0%"></div></div>
+    <div class="prog-phases" id="prog-phases"></div>
+  </div>
+
+  <div class="tabs">
+    <div class="tab active" data-tab="tasks">✓ Tasks</div>
+    <div class="tab" data-tab="log">📋 Daily Log</div>
+    <div class="tab" data-tab="resources">🔗 Resources</div>
+    <div class="tab" data-tab="timetable">📅 Timetable</div>
+  </div>
+
+  <!-- TASKS TAB -->
+
+  <div class="tab-content active" id="tab-tasks">
+    <div class="sec-hdr"><span class="sec-num">Phase 1</span><span class="sec-title">May: Foundation</span><div class="sec-line"></div></div>
+    <div class="task-grid" id="grid-foundation"></div>
+    <div class="sec-hdr"><span class="sec-num">Phase 2</span><span class="sec-title">June: Systems</span><div class="sec-line"></div></div>
+    <div class="task-grid" id="grid-systems"></div>
+    <div class="sec-hdr"><span class="sec-num">Phase 3</span><span class="sec-title">July: AI + Embedded</span><div class="sec-line"></div></div>
+    <div class="task-grid" id="grid-ai"></div>
+    <div class="sec-hdr"><span class="sec-num">Phase 4</span><span class="sec-title">August: Security + Research</span><div class="sec-line"></div></div>
+    <div class="task-grid" id="grid-security"></div>
+  </div>
+
+  <!-- LOG TAB -->
+
+  <div class="tab-content" id="tab-log">
+    <div class="log-form">
+      <div class="log-form-title">Log Today's Study Session</div>
+      <div class="log-row">
+        <input class="log-input" id="log-date" type="date">
+        <select class="log-select" id="log-topic">
+          <option value="">Select topic...</option>
+          <option>Python</option><option>SQL / Databases</option>
+          <option>AI / Machine Learning</option><option>OS &amp; Networking</option>
+          <option>Computer Architecture</option><option>Cybersecurity</option>
+          <option>Embedded Systems</option><option>Research / Reading</option>
+          <option>Project Work</option><option>Other</option>
+        </select>
+      </div>
+      <div class="log-row">
+        <input class="log-input" id="log-hours" type="number" min="0.5" max="12" step="0.5" placeholder="Hours (e.g. 2.5)">
+        <input class="log-input" id="log-resource" type="text" placeholder="Resource (e.g. CS50P)">
+      </div>
+      <div class="log-single">
+        <textarea class="log-textarea" id="log-note" placeholder="What did you learn today? Any notes..."></textarea>
+      </div>
+      <button class="btn-log" onclick="addLog()">+ Add Log Entry</button>
+    </div>
+    <div class="log-entries" id="log-entries"></div>
+  </div>
+
+  <!-- RESOURCES TAB -->
+
+  <div class="tab-content" id="tab-resources">
+    <div class="res-grid">
+      <div class="res-card rc-python">
+        <div class="res-top-bar"></div>
+        <div class="res-topic">Python</div>
+        <div class="res-title">Programming Core</div>
+        <div class="res-desc">Covers 7COM2010 &amp; 7COM2014 — the most critical foundation for your degree.</div>
+        <div class="res-links">
+          <a class="res-link" href="https://cs50.harvard.edu/python/" target="_blank">Harvard CS50P <span class="lbadge lb-free">Free</span></a>
+          <a class="res-link" href="https://www.coursera.org/specializations/python" target="_blank">Coursera — Python for Everybody <span class="lbadge lb-free">Free Audit</span></a>
+          <a class="res-link" href="https://mimo.org" target="_blank">Mimo App (mobile-friendly) <span class="lbadge lb-fx">Freemium</span></a>
+          <a class="res-link" href="https://www.hackerrank.com/domains/python" target="_blank">HackerRank — Practice <span class="lbadge lb-free">Free</span></a>
+        </div>
+      </div>
+      <div class="res-card rc-sql">
+        <div class="res-top-bar"></div>
+        <div class="res-topic">SQL &amp; Databases</div>
+        <div class="res-title">Multi-User DB Systems</div>
+        <div class="res-desc">Covers 7COM2020 — JOINs, transactions, indexing, multi-user concurrency.</div>
+        <div class="res-links">
+          <a class="res-link" href="https://sqlbolt.com" target="_blank">SQLBolt — Interactive SQL <span class="lbadge lb-free">Free</span></a>
+          <a class="res-link" href="https://mimo.org/blog/free-sql-courses-for-beginners" target="_blank">Mimo SQL Course <span class="lbadge lb-fx">Freemium</span></a>
+          <a class="res-link" href="https://www.w3schools.com/sql/" target="_blank">W3Schools SQL Reference <span class="lbadge lb-free">Free</span></a>
+          <a class="res-link" href="https://www.udemy.com/course/the-complete-sql-bootcamp/" target="_blank">Udemy SQL Bootcamp <span class="lbadge lb-paid">~£10</span></a>
+        </div>
+      </div>
+      <div class="res-card rc-ml">
+        <div class="res-top-bar"></div>
+        <div class="res-topic">AI &amp; Machine Learning</div>
+        <div class="res-title">Principles of AI</div>
+        <div class="res-desc">Covers 7COM2014 — ML algorithms, NumPy, Pandas, Scikit-learn.</div>
+        <div class="res-links">
+          <a class="res-link" href="https://www.coursera.org/specializations/machine-learning-introduction" target="_blank">Andrew Ng — ML Specialization <span class="lbadge lb-free">Free Audit</span></a>
+          <a class="res-link" href="https://www.kaggle.com/learn" target="_blank">Kaggle Learn (Micro-courses) <span class="lbadge lb-free">Free</span></a>
+          <a class="res-link" href="https://course.fast.ai" target="_blank">fast.ai — Practical Deep Learning <span class="lbadge lb-free">Free</span></a>
+        </div>
+      </div>
+      <div class="res-card rc-os">
+        <div class="res-top-bar"></div>
+        <div class="res-topic">OS &amp; Networking</div>
+        <div class="res-title">Operating Systems</div>
+        <div class="res-desc">Covers 7COM2021 &amp; 7COM2024 — processes, memory, TCP/IP, CPU architecture.</div>
+        <div class="res-links">
+          <a class="res-link" href="https://www.youtube.com/watch?v=26QPDBe-NB8" target="_blank">Neso Academy — OS Full Course <span class="lbadge lb-free">Free</span></a>
+          <a class="res-link" href="https://www.coursera.org/learn/os-power-user" target="_blank">Google IT Support — OS Module <span class="lbadge lb-free">Free Audit</span></a>
+          <a class="res-link" href="https://www.youtube.com/watch?v=IPvYjXCsTg8" target="_blank">Computer Networks — YouTube <span class="lbadge lb-free">Free</span></a>
+        </div>
+      </div>
+      <div class="res-card rc-sec">
+        <div class="res-top-bar"></div>
+        <div class="res-topic">Cybersecurity</div>
+        <div class="res-title">Info Security &amp; Compliance</div>
+        <div class="res-desc">Covers 7COM2023 — encryption, GDPR, threat management, compliance.</div>
+        <div class="res-links">
+          <a class="res-link" href="https://www.coursera.org/professional-certificates/google-cybersecurity" target="_blank">Google Cybersecurity Certificate <span class="lbadge lb-free">Free Audit</span></a>
+          <a class="res-link" href="https://tryhackme.com" target="_blank">TryHackMe — Hands-on Labs <span class="lbadge lb-fx">Freemium</span></a>
+          <a class="res-link" href="https://www.cybrary.it" target="_blank">Cybrary — Free Courses <span class="lbadge lb-free">Free</span></a>
+        </div>
+      </div>
+      <div class="res-card rc-emb">
+        <div class="res-top-bar"></div>
+        <div class="res-topic">Embedded Systems</div>
+        <div class="res-title">Intro to Embedded Systems</div>
+        <div class="res-desc">Covers 7COM2011 — C basics, microcontrollers, Arduino / Raspberry Pi.</div>
+        <div class="res-links">
+          <a class="res-link" href="https://www.coursera.org/specializations/introduction-embedded-systems" target="_blank">Coursera Embedded Specialization <span class="lbadge lb-free">Free Audit</span></a>
+          <a class="res-link" href="https://www.youtube.com/c/PaulMcWhorter" target="_blank">Paul McWhorter — Arduino YT <span class="lbadge lb-free">Free</span></a>
+          <a class="res-link" href="https://www.learn-c.org" target="_blank">Learn-C.org — C Basics <span class="lbadge lb-free">Free</span></a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TIMETABLE TAB -->
+
+  <div class="tab-content" id="tab-timetable">
+    <div class="sec-hdr"><span class="sec-num">01</span><span class="sec-title">Monthly Plan</span><div class="sec-line"></div></div>
+    <div class="timeline">
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#5b9bff"></div>
+        <div class="tl-card"><div class="tl-bar" style="background:#5b9bff"></div>
+          <div class="tl-month">May 2026</div>
+          <div class="tl-focus">Foundation Phase — Python + SQL</div>
+          <div class="tl-chips">
+            <span class="chip ch-py">Python basics — CS50P</span><span class="chip ch-py">Variables, loops, functions</span>
+            <span class="chip ch-sql">SQL SELECT &amp; JOINs</span><span class="chip ch-sql">Database fundamentals</span>
+            <span class="chip ch-py">HackerRank 5 problems/week</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#ffd166"></div>
+        <div class="tl-card"><div class="tl-bar" style="background:#ffd166"></div>
+          <div class="tl-month">June 2026</div>
+          <div class="tl-focus">Systems Phase — OS + Networking + Architecture</div>
+          <div class="tl-chips">
+            <span class="chip ch-os">OS: processes, memory, scheduling</span><span class="chip ch-os">TCP/IP, DNS, HTTP basics</span>
+            <span class="chip ch-os">CPU architecture, binary/hex</span><span class="chip ch-py">Python OOP + file handling</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#ff6b6b"></div>
+        <div class="tl-card"><div class="tl-bar" style="background:#ff6b6b"></div>
+          <div class="tl-month">July 2026</div>
+          <div class="tl-focus">AI + Embedded Phase</div>
+          <div class="tl-chips">
+            <span class="chip ch-ml">Andrew Ng ML Course</span><span class="chip ch-ml">NumPy + Pandas basics</span>
+            <span class="chip ch-emb">C basics — Learn-C.org</span><span class="chip ch-emb">Arduino intro project</span>
+            <span class="chip ch-sql">Advanced SQL: transactions</span>
+          </div>
+        </div>
+      </div>
+      <div class="tl-item">
+        <div class="tl-dot" style="background:#c084fc"></div>
+        <div class="tl-card"><div class="tl-bar" style="background:#c084fc"></div>
+          <div class="tl-month">August 2026</div>
+          <div class="tl-focus">Security + Research Prep</div>
+          <div class="tl-chips">
+            <span class="chip ch-sec">Google Cybersecurity Cert</span><span class="chip ch-sec">GDPR + compliance basics</span>
+            <span class="chip ch-sec">TryHackMe labs</span><span class="chip ch-res">Read 2 research papers/week</span>
+            <span class="chip ch-res">Learn LaTeX basics</span><span class="chip ch-res">Choose thesis topic ideas</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+```
+<div class="sec-hdr" style="margin-top:32px"><span class="sec-num">02</span><span class="sec-title">Daily Schedule</span><div class="sec-line"></div></div>
+<div class="daily-card">
+  <div class="daily-row-t"><div class="dr-time">Morning</div><div class="dr-task"><div class="dr-dot" style="background:#5b9bff"></div>1.5 hrs — Theory: videos, docs, reading</div></div>
+  <div class="daily-row-t"><div class="dr-time">Afternoon</div><div class="dr-task"><div class="dr-dot" style="background:#3ee897"></div>1 hr — Hands-on: coding, exercises, labs</div></div>
+  <div class="daily-row-t"><div class="dr-time">Evening</div><div class="dr-task"><div class="dr-dot" style="background:#ffd166"></div>30 min — Review notes + LeetCode / HackerRank</div></div>
+  <div class="daily-row-t"><div class="dr-time">Weekend</div><div class="dr-task"><div class="dr-dot" style="background:#c084fc"></div>Build a mini project to consolidate the week</div></div>
+</div>
+```
+
+  </div>
+
+</div>
+
+<!-- MODAL -->
+
+<div class="modal-overlay" id="clear-modal">
+  <div class="modal">
+    <h3>Clear All Data?</h3>
+    <p>This will permanently delete all task progress, log entries, and statistics. Cannot be undone.</p>
+    <div class="modal-btns">
+      <button class="btn-cancel" onclick="closeClearModal()">Cancel</button>
+      <button class="btn-confirm-clear" onclick="confirmClear()">Yes, Clear Everything</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const TASKS = {
+  foundation: [
+    {id:'py1',phase:'python',label:'Python',name:'Python Basics',sub:'Variables, data types, control flow — CS50P'},
+    {id:'py2',phase:'python',label:'Python',name:'Functions & Loops',sub:'Functions, loops, recursion — CS50P'},
+    {id:'py3',phase:'python',label:'Python',name:'Data Structures',sub:'Lists, dicts, sets, tuples — CS50P'},
+    {id:'py4',phase:'python',label:'Python',name:'OOP Basics',sub:'Classes, objects, methods — CS50P'},
+    {id:'sql1',phase:'sql',label:'SQL',name:'SQL Fundamentals',sub:'SELECT, WHERE, ORDER BY — SQLBolt'},
+    {id:'sql2',phase:'sql',label:'SQL',name:'SQL JOINs',sub:'INNER, LEFT, RIGHT joins — SQLBolt'},
+    {id:'py5',phase:'python',label:'Practice',name:'HackerRank Python',sub:'Complete 20 Easy problems on HackerRank'},
+  ],
+  systems: [
+    {id:'os1',phase:'os',label:'OS',name:'Processes & Threads',sub:'Process management, scheduling — Neso Academy'},
+    {id:'os2',phase:'os',label:'OS',name:'Memory Management',sub:'Virtual memory, paging, segmentation'},
+    {id:'os3',phase:'os',label:'Networking',name:'TCP/IP & Networking',sub:'OSI model, TCP/IP, DNS, HTTP'},
+    {id:'os4',phase:'os',label:'Architecture',name:'CPU Architecture',sub:'Registers, ALU, memory hierarchy, binary/hex'},
+    {id:'py6',phase:'python',label:'Python',name:'File I/O & Modules',sub:'File handling, imports, virtual environments'},
+  ],
+  ai: [
+    {id:'ml1',phase:'ml',label:'AI/ML',name:'ML Fundamentals',sub:'Supervised/unsupervised learning — Andrew Ng Week 1'},
+    {id:'ml2',phase:'ml',label:'AI/ML',name:'NumPy & Pandas',sub:'Arrays, DataFrames, data manipulation — Kaggle'},
+    {id:'ml3',phase:'ml',label:'AI/ML',name:'Scikit-learn Basics',sub:'Linear regression, classification — Kaggle ML'},
+    {id:'emb1',phase:'embedded',label:'Embedded',name:'C Programming Basics',sub:'Syntax, pointers, memory — Learn-C.org'},
+    {id:'emb2',phase:'embedded',label:'Embedded',name:'Arduino Intro Project',sub:'LED blink + sensor project — Paul McWhorter YT'},
+    {id:'sql3',phase:'sql',label:'SQL',name:'Advanced SQL',sub:'Transactions, indexing, stored procedures'},
+  ],
+  security: [
+    {id:'sec1',phase:'security',label:'Security',name:'Cybersecurity Fundamentals',sub:'CIA triad, threats, attacks — Google Cert Week 1'},
+    {id:'sec2',phase:'security',label:'Security',name:'Encryption & Cryptography',sub:'Symmetric, asymmetric, hashing concepts'},
+    {id:'sec3',phase:'security',label:'Compliance',name:'GDPR & Compliance',sub:'Data protection law, compliance frameworks'},
+    {id:'sec4',phase:'security',label:'TryHackMe',name:'Hands-on Security Labs',sub:'Complete 5 TryHackMe rooms'},
+    {id:'res1',phase:'research',label:'Research',name:'Read 8 Research Papers',sub:'2 papers/week on your chosen thesis topic'},
+    {id:'res2',phase:'research',label:'LaTeX',name:'LaTeX Basics',sub:'Overleaf tutorial — academic writing format'},
+    {id:'res3',phase:'research',label:'Thesis',name:'Choose Thesis Topic',sub:'Narrow down 3 potential MSc project ideas'},
+  ]
+};
+
+function load(){return{done:JSON.parse(localStorage.getItem('msc_done')||'{}'),logs:JSON.parse(localStorage.getItem('msc_logs')||'[]')};}
+function save(d){localStorage.setItem('msc_done',JSON.stringify(d.done));localStorage.setItem('msc_logs',JSON.stringify(d.logs));}
+
+function renderTasks(){
+  const {done}=load();
+  Object.entries(TASKS).forEach(([g,tasks])=>{
+    const el=document.getElementById('grid-'+g);if(!el)return;
+    el.innerHTML=tasks.map(t=>{
+      const isDone=!!done[t.id];
+      const dt=isDone?`<div class="task-date">✓ ${done[t.id]}</div>`:'';
+      return`<div class="task-card p-${t.phase}${isDone?' done':''}" onclick="toggleTask('${t.id}')">
+        <div class="task-top">
+          <div class="task-check"><svg width="10" height="10" viewBox="0 0 12 12" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="2,6 5,9 10,3"/></svg></div>
+          <div><div class="task-phase">${t.label}</div><div class="task-name">${t.name}</div><div class="task-sub">${t.sub}</div>${dt}</div>
+        </div></div>`;
+    }).join('');
+  });
+  updateStats();
+}
+
+function toggleTask(id){
+  const d=load();
+  if(d.done[id]){delete d.done[id];showToast('Task unmarked');}
+  else{d.done[id]=new Date().toLocaleDateString('en-GB',{day:'numeric',month:'short',year:'numeric'});showToast('Task completed! 🎉');}
+  save(d);renderTasks();
+}
+
+function updateStats(){
+  const {done,logs}=load();
+  const total=Object.values(TASKS).flat().length;
+  const doneN=Object.keys(done).length;
+  const hours=logs.reduce((s,l)=>s+(parseFloat(l.hours)||0),0);
+  document.getElementById('stat-tasks').textContent=`${doneN}/${total}`;
+  document.getElementById('stat-hours').textContent=hours.toFixed(1);
+  document.getElementById('stat-streak').textContent=calcStreak(logs);
+  document.getElementById('stat-logs').textContent=logs.length;
+  const pct=Math.round(doneN/total*100);
+  document.getElementById('prog-pct').textContent=pct+'%';
+  document.getElementById('prog-bar').style.width=pct+'%';
+  const phases=[{label:'Foundation',key:'foundation'},{label:'Systems',key:'systems'},{label:'AI+Emb',key:'ai'},{label:'Security',key:'security'}];
+  document.getElementById('prog-phases').innerHTML=phases.map(g=>{
+    const tot=TASKS[g.key].length,d=TASKS[g.key].filter(t=>done[t.id]).length;
+    const col=d===tot?'#3ee897':'#5a6484';
+    return`<span class="phase-pip" style="border-color:${col};color:${col}">${d===tot?'✓ ':''}${g.label} ${d}/${tot}</span>`;
+  }).join('');
+}
+
+function calcStreak(logs){
+  if(!logs.length)return 0;
+  const days=[...new Set(logs.map(l=>l.date))].sort().reverse();
+  const today=new Date().toISOString().slice(0,10);
+  const yest=new Date(Date.now()-86400000).toISOString().slice(0,10);
+  if(days[0]!==today&&days[0]!==yest)return 0;
+  let s=1;
+  for(let i=1;i<days.length;i++){if((new Date(days[i-1])-new Date(days[i]))/86400000===1)s++;else break;}
+  return s;
+}
+
+function addLog(){
+  const date=document.getElementById('log-date').value;
+  const topic=document.getElementById('log-topic').value;
+  const hours=document.getElementById('log-hours').value;
+  const resource=document.getElementById('log-resource').value;
+  const note=document.getElementById('log-note').value;
+  if(!date||!topic||!hours){showToast('Please fill date, topic & hours');return;}
+  const d=load();
+  d.logs.unshift({date,topic,hours:parseFloat(hours),resource,note,id:Date.now()});
+  save(d);renderLogs();updateStats();
+  document.getElementById('log-hours').value='';
+  document.getElementById('log-resource').value='';
+  document.getElementById('log-note').value='';
+  showToast('Session logged! 📝');
+}
+
+function renderLogs(){
+  const {logs}=load();
+  const el=document.getElementById('log-entries');
+  if(!logs.length){el.innerHTML='<div class="log-empty">No entries yet — log your first session above!</div>';return;}
+  el.innerHTML=logs.map(l=>`
+    <div class="log-entry">
+      <div class="log-entry-date">${fmtDate(l.date)}</div>
+      <div><div class="log-entry-topic">${l.topic}${l.resource?' · '+l.resource:''}</div><div class="log-entry-note">${l.note||'—'}</div></div>
+      <div class="log-entry-hrs">${l.hours}h</div>
+    </div>`).join('');
+}
+
+function fmtDate(s){const d=new Date(s+'T00:00:00');return d.toLocaleDateString('en-GB',{day:'numeric',month:'short'});}
+
+document.querySelectorAll('.tab').forEach(tab=>{
+  tab.addEventListener('click',()=>{
+    document.querySelectorAll('.tab').forEach(t=>t.classList.remove('active'));
+    document.querySelectorAll('.tab-content').forEach(c=>c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('tab-'+tab.dataset.tab).classList.add('active');
+  });
+});
+
+function openClearModal(){document.getElementById('clear-modal').classList.add('show');}
+function closeClearModal(){document.getElementById('clear-modal').classList.remove('show');}
+function confirmClear(){localStorage.removeItem('msc_done');localStorage.removeItem('msc_logs');closeClearModal();renderTasks();renderLogs();showToast('All data cleared');}
+document.getElementById('clear-modal').addEventListener('click',function(e){if(e.target===this)closeClearModal();});
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),2500);}
+
+document.getElementById('log-date').value=new Date().toISOString().slice(0,10);
+renderTasks();
+renderLogs();
+</script>
+
+</body>
+</html>
