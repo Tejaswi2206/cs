@@ -1,514 +1,760 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MSc CS — Pre-Arrival Prep Plan</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist+Mono:wght@300;400;500&family=Geist:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0;}
-.wrap{padding:1.5rem 0 2rem;}
-.hero-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.4rem;}
-.hero-title{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:.2rem;}
-.hero-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;}
-.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem;}
-.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;}
-.stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary);}
-.stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
-.prog-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
-.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
-.prog-label{font-size:13px;font-weight:500;color:var(--color-text-primary);}
-.prog-pct{font-size:13px;color:var(--color-text-secondary);}
-.track{height:8px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;}
-.fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);}
-.month-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:.75rem;}
-.mnav{font-size:11px;padding:6px;border-radius:var(--border-radius-md);border:0.5px solid;text-align:center;cursor:pointer;transition:opacity .15s;font-weight:500;}
-.mnav:hover{opacity:.7;}
-.m1{color:#185fa5;border-color:#185fa5;background:#e6f1fb;}
-.m2{color:#854f0b;border-color:#854f0b;background:#faeeda;}
-.m3{color:#0f6e56;border-color:#0f6e56;background:#e1f5ee;}
-.month-block{margin-bottom:2rem;}
-.month-hdr{display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
-.month-badge{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:var(--border-radius-md);border:0.5px solid;}
-.b1{color:#185fa5;border-color:#185fa5;background:#e6f1fb;}
-.b2{color:#854f0b;border-color:#854f0b;background:#faeeda;}
-.b3{color:#0f6e56;border-color:#0f6e56;background:#e1f5ee;}
-.month-title{font-size:18px;font-weight:500;color:var(--color-text-primary);}
-.month-sub{font-size:12px;color:var(--color-text-tertiary);margin-left:auto;}
-.week-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:10px;overflow:hidden;transition:border-color .2s;}
-.week-card.done{opacity:.6;}
-.week-hdr{display:flex;align-items:center;gap:12px;padding:1rem 1.25rem;cursor:pointer;}
-.week-num{font-size:11px;font-family:var(--font-mono);color:var(--color-text-tertiary);min-width:40px;}
-.week-topic{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1;}
-.week-hrs{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:3px 10px;border-radius:99px;white-space:nowrap;}
-.chk{display:flex;align-items:center;gap:5px;font-size:12px;padding:5px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);cursor:pointer;background:none;color:var(--color-text-secondary);transition:all .15s;margin-left:8px;}
-.chk:hover{background:var(--color-background-secondary);}
-.chk.done{color:#0f6e56;border-color:#0f6e56;background:#e1f5ee;}
-.expand-icon{font-size:16px;color:var(--color-text-tertiary);transition:transform .2s;}
-.week-detail{max-height:0;overflow:hidden;transition:max-height .3s ease;}
-.week-detail.open{max-height:600px;}
-.detail-inner{border-top:0.5px solid var(--color-border-tertiary);padding:1rem 1.25rem;}
-.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1rem;}
-.day-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem .75rem;}
-.day-name{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:4px;}
-.day-task{font-size:11px;color:var(--color-text-secondary);line-height:1.5;}
-.deliverable{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:.6rem .75rem;border-radius:var(--border-radius-md);}
-.del-icon{font-size:14px;color:var(--color-text-info);flex-shrink:0;margin-top:1px;}
-.sec-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:6px;}
-.schedule-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem;}
-.sched-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem .75rem;display:flex;gap:8px;align-items:center;}
-.sched-time{font-size:11px;font-family:var(--font-mono);color:var(--color-text-tertiary);min-width:80px;}
-.sched-act{font-size:12px;color:var(--color-text-secondary);}
-.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0;}
-.daily-section{margin-bottom:1.5rem;}
-.daily-hdr{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
-.daily-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;}
-.daily-slot{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.75rem 1rem;}
-.slot-time{font-size:10px;font-family:var(--font-mono);color:var(--color-text-tertiary);margin-bottom:3px;}
-.slot-act{font-size:12px;font-weight:500;color:var(--color-text-primary);}
-.slot-note{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
-.tips-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-top:1.5rem;}
-.tip-row{display:flex;gap:10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
-.tip-row:last-child{border-bottom:none;}
-.tip-n{font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary);width:20px;flex-shrink:0;padding-top:2px;}
+:root {
+  --ink: #0f0e0c;
+  --paper: #f5f2ec;
+  --paper2: #ede9e1;
+  --line: rgba(15,14,12,0.08);
+  --line2: rgba(15,14,12,0.16);
+  --june: #1d4ed8;
+  --july: #92400e;
+  --aug: #14532d;
+  --muted: #6b6860;
+  --red: #dc2626;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;}
+body{
+  background:var(--paper);
+  color:var(--ink);
+  font-family:'Geist',sans-serif;
+  font-weight:300;
+  min-height:100vh;
+}
+body::before{
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image:repeating-linear-gradient(
+    transparent,transparent 31px,
+    rgba(15,14,12,0.045) 31px,rgba(15,14,12,0.045) 32px
+  );
+  pointer-events:none;
+  z-index:0;
+}
+.page{max-width:920px;margin:0 auto;padding:0 36px 100px;position:relative;z-index:1;}
+
+/* HEADER */
+header{
+  padding:60px 15px 36px;
+  border-bottom: 2px solid var(--ink);
+  border-top: 2px solid var(--ink);
+  border-left: 2px solid var(--ink);
+  border-right: 2px solid var(--ink);
+  margin-bottom:36px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:end;
+  gap:24px;
+}
+.eyebrow{
+  font-family:'Geist Mono',monospace;
+  font-size:10px;
+  letter-spacing:.22em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:16px;
+}
+h1{
+  font-family:'Instrument Serif',serif;
+  font-size:clamp(44px,7vw,72px);
+  font-weight:400;
+  line-height:.92;
+  letter-spacing:-.02em;
+}
+h1 em{font-style:italic;color:var(--red);}
+.hdr-sub{
+  font-family:'Geist Mono',monospace;
+  font-size:11px;
+  color:var(--muted);
+  margin-top:18px;
+  letter-spacing:.06em;
+}
+.hdr-right{text-align:right;}
+.countdown{
+  font-family:'Instrument Serif',serif;
+  font-size:64px;
+  font-weight:400;
+  line-height:1;
+  color:var(--red);
+}
+.countdown-label{
+  font-family:'Geist Mono',monospace;
+  font-size:9px;
+  letter-spacing:.16em;
+  color:var(--muted);
+  text-transform:uppercase;
+  margin-top:6px;
+}
+
+/* STATS */
+.stats{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  border:1.5px solid var(--ink);
+  margin-bottom:36px;
+}
+.stat{padding:18px 16px;border-right:1px solid var(--line2);}
+.stat:last-child{border-right:none;}
+.stat-n{
+  font-family:'Instrument Serif',serif;
+  font-size:34px;
+  font-weight:400;
+  line-height:1;
+}
+.stat-l{
+  font-family:'Geist Mono',monospace;
+  font-size:9px;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-top:4px;
+}
+
+/* PROGRESS */
+.prog{
+  border:1.5px solid var(--ink);
+  padding:18px 22px;
+  margin-bottom:36px;
+}
+.prog-top{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;}
+.prog-lbl{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.prog-pct{font-family:'Instrument Serif',serif;font-size:24px;color:var(--ink);}
+.track{height:2px;background:var(--line2);margin-bottom:14px;}
+.fill{height:100%;background:var(--ink);width:0%;transition:width .9s cubic-bezier(.4,0,.2,1);}
+.mnav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;}
+.mtab{
+  font-family:'Geist Mono',monospace;
+  font-size:10px;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:8px;
+  border:1px solid;
+  text-align:center;
+  cursor:pointer;
+  transition:opacity .15s;
+  text-decoration:none;
+  display:block;
+}
+.mtab:hover{opacity:.7;}
+.t1{color:var(--june);border-color:var(--june);}
+.t2{color:var(--july);border-color:var(--july);}
+.t3{color:var(--aug);border-color:var(--aug);}
+
+/* WARNING */
+.warn{
+  border:1.5px solid var(--red);
+  padding:16px 20px;
+  margin-bottom:36px;
+  display:flex;
+  gap:18px;
+  align-items:flex-start;
+}
+.warn-n{
+  font-family:'Instrument Serif',serif;
+  font-size:40px;
+  font-style:italic;
+  color:var(--red);
+  line-height:1;
+  flex-shrink:0;
+}
+.warn-t{font-size:13px;line-height:1.65;color:var(--ink);}
+.warn-t strong{font-weight:500;}
+
+/* DAILY */
+.sec-lbl{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.daily{display:grid;grid-template-columns:repeat(4,1fr);border:1px solid var(--line2);margin-bottom:48px;}
+.dslot{padding:16px;border-right:1px solid var(--line2);}
+.dslot:last-child{border-right:none;}
+.ds-time{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.08em;color:var(--muted);margin-bottom:5px;}
+.ds-act{font-size:13px;font-weight:500;margin-bottom:2px;}
+.ds-note{font-size:11px;color:var(--muted);line-height:1.5;}
+
+/* MONTH */
+.mblock{margin-bottom:48px;}
+.mhdr{
+  display:flex;align-items:baseline;gap:14px;
+  padding-bottom:12px;border-bottom:1.5px solid var(--ink);margin-bottom:20px;
+}
+.mbadge{
+  font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.12em;
+  text-transform:uppercase;padding:4px 10px;border:1px solid;
+}
+.b1{color:var(--june);border-color:var(--june);}
+.b2{color:var(--july);border-color:var(--july);}
+.b3{color:var(--aug);border-color:var(--aug);}
+.mtitle{font-family:'Instrument Serif',serif;font-size:28px;font-style:italic;font-weight:400;}
+.mmeta{font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted);margin-left:auto;letter-spacing:.04em;}
+
+/* WEEK */
+.wk{border:1px solid var(--line2);margin-bottom:6px;transition:border-color .2s;}
+.wk:hover{border-color:var(--line2);}
+.wk.done{opacity:.45;}
+.wk-row{
+  display:grid;
+  grid-template-columns:50px 1fr 70px auto 18px;
+  align-items:center;
+  gap:14px;
+  padding:13px 16px;
+  cursor:pointer;
+  user-select:none;
+}
+.wn{font-family:'Geist Mono',monospace;font-size:10px;letter-spacing:.08em;color:var(--muted);}
+.wt{font-size:13.5px;font-weight:400;color:var(--ink);}
+.wh{font-family:'Geist Mono',monospace;font-size:10px;color:var(--muted);text-align:right;}
+.dbtn{
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.12em;text-transform:uppercase;
+  padding:6px 12px;border:1px solid var(--line2);cursor:pointer;background:none;
+  color:var(--muted);transition:all .15s;white-space:nowrap;
+}
+.dbtn:hover{border-color:var(--ink);color:var(--ink);}
+.dbtn.on{border-color:var(--aug);color:var(--aug);}
+.chv{font-size:11px;color:var(--muted);font-style:normal;transition:transform .25s;text-align:center;}
+.chv.o{transform:rotate(180deg);}
+
+/* DETAIL */
+.wkd{max-height:0;overflow:hidden;transition:max-height .35s cubic-bezier(.4,0,.2,1);}
+.wkd.o{max-height:800px;}
+.dwrap{
+  border-top:1px solid var(--line);padding:18px 16px 18px 66px;
+  display:grid;grid-template-columns:1fr 260px;gap:24px;
+}
+.dlbl{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;}
+.dlist{display:flex;flex-direction:column;}
+.di{display:flex;gap:14px;padding:6px 0;border-bottom:1px solid var(--line);align-items:flex-start;}
+.di:last-child{border-bottom:none;}
+.did{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.1em;color:var(--muted);text-transform:uppercase;min-width:26px;padding-top:2px;}
+.dit{font-size:12px;color:var(--ink);line-height:1.5;}
+.gbox{background:var(--paper2);border:1px solid var(--line2);padding:14px 16px;}
+.gbox-t{font-size:12px;color:var(--ink);line-height:1.65;}
+
+/* FINAL */
+.fc{border:1px solid var(--line2);padding:18px 22px;margin-top:12px;}
+.fc-lbl{font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:12px;}
+.fci{display:flex;gap:12px;font-size:12px;color:var(--ink);padding:7px 0;border-bottom:1px solid var(--line);align-items:center;}
+.fci:last-child{border-bottom:none;}
+.fcd{width:5px;height:5px;border-radius:50%;background:var(--aug);flex-shrink:0;}
+
+/* TIPS */
+.tips{border-top:1.5px solid var(--ink);padding-top:24px;margin-top:44px;}
+.tgrid{display:grid;grid-template-columns:repeat(2,1fr);gap:0;}
+.ti{display:flex;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);align-items:flex-start;}
+.ti:nth-child(odd){padding-right:24px;border-right:1px solid var(--line);}
+.ti:nth-child(even){padding-left:24px;}
+.tn{font-family:'Geist Mono',monospace;font-size:9px;color:var(--muted);flex-shrink:0;padding-top:2px;}
+.tt{font-size:12px;line-height:1.6;color:var(--ink);}
+
+/* FOOTER */
+footer{
+  margin-top:60px;padding-top:18px;border-top:1px solid var(--line2);
+  display:flex;justify-content:space-between;
+  font-family:'Geist Mono',monospace;font-size:9px;letter-spacing:.12em;
+  color:var(--muted);text-transform:uppercase;
+}
+
+@media(max-width:640px){
+  header{grid-template-columns:1fr;}
+  .stats{grid-template-columns:repeat(2,1fr);}
+  .daily{grid-template-columns:repeat(2,1fr);}
+  .dslot:nth-child(2){border-right:none;}
+  .dslot:nth-child(3){border-right:1px solid var(--line2);}
+  .wk-row{grid-template-columns:40px 1fr auto 18px;}
+  .wh{display:none;}
+  .dwrap{grid-template-columns:1fr;padding-left:16px;}
+  .gbox{display:none;}
+  .tgrid{grid-template-columns:1fr;}
+  .ti:nth-child(odd){padding-right:0;border-right:none;}
+  .ti:nth-child(even){padding-left:0;}
+}
 </style>
 
-<h2 class="sr-only">3-month week-by-week study timetable and tracker for MSc CS preparation, June–August 2026</h2>
+<style id="modern-redesign">
+:root{
+ --ink:#e5eefc!important;
+ --paper:#0b1220!important;
+ --paper2:#111827!important;
+ --line:rgba(255,255,255,.08)!important;
+ --line2:rgba(255,255,255,.16)!important;
+ --muted:#9ca3af!important;
+}
+body{
+ background:linear-gradient(135deg,#0b1220,#111827,#1e293b)!important;
+ color:var(--ink)!important;
+}
+body::before{display:none!important;}
+.page{max-width:1100px!important;}
+header,.prog,.warn,.wk,.fc,.stats,.daily{
+ backdrop-filter:blur(12px);
+ background:rgba(255,255,255,.04)!important;
+ border-radius:18px;
+ overflow:hidden;
+}
+.stat,.dslot{background:rgba(255,255,255,.02);}
+h1{letter-spacing:-.04em!important;}
+.countdown{
+ background:linear-gradient(90deg,#60a5fa,#a78bfa);
+ -webkit-background-clip:text;
+ -webkit-text-fill-color:transparent;
+}
+.mtab,.dbtn,.mbadge{
+ border-radius:999px!important;
+}
+.wk{
+ margin-bottom:14px!important;
+ border-radius:16px!important;
+}
+.wk:hover{
+ transform:translateY(-2px);
+ transition:.2s;
+}
+.gbox{
+ border-radius:14px;
+ background:rgba(255,255,255,.05)!important;
+}
+footer{opacity:.8;}
+</style>
 
-<div class="wrap">
-<div class="hero-label">MSc Computer Science · Pre-arrival prep</div>
-<div class="hero-title">3-Month Timetable & Tracker</div>
-<div class="hero-sub">June 2 → August 31, 2026 · Flying to UK in September · 13 weeks</div>
+</head>
+<body>
+<div class="page">
+
+<header>
+  <div>
+    <div class="eyebrow">MSc Computer Science · Pre-arrival preparation</div>
+    <h1>3-Month<br><em>Study Plan</em></h1>
+    <div class="hdr-sub">June 2 → August 31, 2026 &nbsp;·&nbsp; 13 weeks &nbsp;·&nbsp; Flying to the UK in September</div>
+  </div>
+  <div class="hdr-right">
+    <div class="countdown" id="days-left">—</div>
+    <div class="countdown-label">days to departure</div>
+  </div>
+</header>
 
 <div class="stats">
-  <div class="stat"><div class="stat-n" id="s-weeks">0/13</div><div class="stat-l">Weeks done</div></div>
-  <div class="stat"><div class="stat-n" id="s-hrs">0</div><div class="stat-l">Hours logged</div></div>
+  <div class="stat"><div class="stat-n" id="sw">0/13</div><div class="stat-l">Weeks done</div></div>
+  <div class="stat"><div class="stat-n" id="sh">0</div><div class="stat-l">Hours logged</div></div>
   <div class="stat"><div class="stat-n">~2.5</div><div class="stat-l">Hrs per day</div></div>
-  <div class="stat"><div class="stat-n">Sep</div><div class="stat-l">UK departure</div></div>
+  <div class="stat"><div class="stat-n">9</div><div class="stat-l">Core modules</div></div>
 </div>
 
-<div class="prog-card">
-  <div class="prog-row"><span class="prog-label">Overall progress</span><span class="prog-pct" id="pct">0%</span></div>
-  <div class="track"><div class="fill" id="pfill" style="width:0%;background:#378add;"></div></div>
-  <div class="month-nav">
-    <div class="mnav m1" onclick="jump('june')"><i class="ti ti-calendar" aria-hidden="true"></i> June</div>
-    <div class="mnav m2" onclick="jump('july')"><i class="ti ti-calendar" aria-hidden="true"></i> July</div>
-    <div class="mnav m3" onclick="jump('aug')"><i class="ti ti-calendar" aria-hidden="true"></i> August</div>
+<div class="prog">
+  <div class="prog-top">
+    <span class="prog-lbl">Overall progress</span>
+    <span class="prog-pct" id="pct">0%</span>
+  </div>
+  <div class="track"><div class="fill" id="pfill"></div></div>
+  <div class="mnav">
+    <a class="mtab t1" href="#june">June — Foundations</a>
+    <a class="mtab t2" href="#july">July — Systems & Data</a>
+    <a class="mtab t3" href="#aug">August — Security & Ethics</a>
   </div>
 </div>
 
-<div class="divider"></div>
-
-<div class="daily-section">
-  <div class="daily-hdr"><i class="ti ti-clock" aria-hidden="true" style="font-size:16px;color:var(--color-text-secondary);"></i> Your daily study routine</div>
-  <div class="daily-grid">
-    <div class="daily-slot">
-      <div class="slot-time">07:00 – 08:30</div>
-      <div class="slot-act">Theory session</div>
-      <div class="slot-note">Videos, reading, concepts</div>
-    </div>
-    <div class="daily-slot">
-      <div class="slot-time">10:00 – 11:30</div>
-      <div class="slot-act">Practice session</div>
-      <div class="slot-note">Coding, exercises, problems</div>
-    </div>
-    <div class="daily-slot">
-      <div class="slot-time">Evening</div>
-      <div class="slot-act">Review + notes</div>
-      <div class="slot-note">Summarise what you learned</div>
-    </div>
-    <div class="daily-slot">
-      <div class="slot-time">Weekend</div>
-      <div class="slot-act">Build something</div>
-      <div class="slot-note">Mini project or past paper</div>
-    </div>
-  </div>
+<div class="warn">
+  <div class="warn-n">60</div>
+  <div class="warn-t"><strong>The Masters Project is worth 60 credits — one third of your entire degree.</strong> Start reading papers and brainstorming a topic before you arrive. Week 12 of this plan is dedicated to exactly that.</div>
 </div>
 
-<div class="divider"></div>
+<div class="sec-lbl">Daily study routine</div>
+<div class="daily">
+  <div class="dslot"><div class="ds-time">07:00 – 08:30</div><div class="ds-act">Theory session</div><div class="ds-note">Videos, reading, concepts</div></div>
+  <div class="dslot"><div class="ds-time">10:00 – 11:30</div><div class="ds-act">Practice session</div><div class="ds-note">Coding, exercises, problems</div></div>
+  <div class="dslot"><div class="ds-time">Evening</div><div class="ds-act">Review + notes</div><div class="ds-note">Summarise what you learned</div></div>
+  <div class="dslot"><div class="ds-time">Weekend</div><div class="ds-act">Build something</div><div class="ds-note">Mini project or practice set</div></div>
+</div>
 
-<div id="june" class="month-block">
-  <div class="month-hdr">
-    <span class="month-badge b1">June · Month 1</span>
-    <span class="month-title">Foundations</span>
-    <span class="month-sub">Weeks 1–4 · Python + AI + Embedded basics</span>
+<!-- JUNE -->
+<div class="mblock" id="june">
+  <div class="mhdr">
+    <span class="mbadge b1">Month 01 — June</span>
+    <span class="mtitle">Foundations</span>
+    <span class="mmeta">Weeks 1–4 · Python + AI + Embedded basics</span>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 01</span>
-      <span class="week-topic">Python fundamentals — variables, loops, functions</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 01</span><span class="wt">Python fundamentals — variables, loops, functions</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CS50P week 0 — variables, types, input/output</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CS50P week 1 — conditionals, if/elif/else</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">CS50P week 2 — loops, while, for, break</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">CS50P week 3 — exceptions, try/except</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">CS50P week 4 — libraries, pip, imports</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">CS50P week 0 — variables, types, input/output</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">CS50P week 1 — conditionals, if/elif/else</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">CS50P week 2 — loops: while, for, break, continue</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">CS50P week 3 — exceptions, try/except/finally</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">CS50P week 4 — libraries, pip, imports, modules</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Build a CLI calculator or quiz game in Python. Push it to GitHub — week 1 project done.</div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Build a CLI calculator or quiz game in Python. Push it to GitHub — week 1 portfolio project done.</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 02</span>
-      <span class="week-topic">Python advanced — OOP, file I/O, data structures</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 02</span><span class="wt">Python advanced — OOP, file I/O, data structures</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CS50P week 5 — unit tests</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CS50P week 6 — file I/O, CSV, JSON</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">OOP: classes, objects, inheritance</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Lists, dicts, sets — built-in methods</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">LeetCode: 5 Easy problems (arrays, strings)</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">CS50P week 5 — unit tests, test-driven development</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">CS50P week 6 — file I/O, CSV, JSON reading and writing</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">OOP: classes, objects, __init__, inheritance, polymorphism</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Data structures: lists, dicts, sets, tuples — built-in methods</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">LeetCode: 5 Easy problems — arrays and strings focus</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Build a student grade tracker using OOP + CSV files. Good real-world Python practice.</div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Build a student grade tracker using OOP and CSV files. Real Python that uses everything from weeks 1 and 2.</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 03</span>
-      <span class="week-topic">AI/ML basics — search, knowledge, neural nets intro</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 03</span><span class="wt">AI/ML basics — search, knowledge, neural nets intro</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CS50 AI: Lecture 0 — search algorithms</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CS50 AI: Lecture 1 — knowledge representation</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">CS50 AI: Lecture 2 — uncertainty, probability</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">3Blue1Brown: neural nets series (videos 1–2)</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">3Blue1Brown: neural nets series (videos 3–4)</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">CS50 AI Lecture 0 — search: BFS, DFS, A*</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">CS50 AI Lecture 1 — knowledge representation and logic</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">CS50 AI Lecture 2 — uncertainty and probability</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">3Blue1Brown: neural nets series — videos 1 and 2</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">3Blue1Brown: neural nets series — videos 3 and 4 (backprop)</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Write a 1-page summary of how a neural network learns. Explain it to yourself without notes.</div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Write a 1-page explanation of how a neural network learns — no notes. Forces genuine understanding over passive watching.</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 04</span>
-      <span class="week-topic">Embedded systems intro + June review</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 04</span><span class="wt">Embedded systems intro + June checkpoint</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Embedded basics: microcontrollers, C intro</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Memory, I/O ports, registers, interrupts</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">edX embedded systems: lectures 1–2</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Timing diagrams, datasheets practice</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">June review: revisit weak areas</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">Embedded basics: microcontrollers, C intro, GPIO pins</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">Memory mapping, I/O ports, registers, interrupts</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">edX embedded systems: lectures 1 and 2</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Timing diagrams, reading datasheets</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">June review — revisit weak areas from weeks 1–4</span></div>
+          </div>
         </div>
-        <div class="sec-label">Month 1 checkpoint</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Can you write a Python script from scratch? Explain backpropagation? If yes — June is solid.</div>
+        <div><div class="dlbl">Month 1 checkpoint</div><div class="gbox"><div class="gbox-t">Can you write Python from scratch? Explain backpropagation? Describe what a microcontroller does? Yes to all — June is solid.</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<div id="july" class="month-block">
-  <div class="month-hdr">
-    <span class="month-badge b2">July · Month 2</span>
-    <span class="month-title">Systems & Data</span>
-    <span class="month-sub">Weeks 5–8 · OS + Networks + Architecture + SQL</span>
+<!-- JULY -->
+<div class="mblock" id="july">
+  <div class="mhdr">
+    <span class="mbadge b2">Month 02 — July</span>
+    <span class="mtitle">Systems & Data</span>
+    <span class="mmeta">Weeks 5–8 · OS + Networks + Architecture + SQL</span>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 05</span>
-      <span class="week-topic">Operating systems — processes, memory, scheduling</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 05</span><span class="wt">Operating systems — processes, memory, scheduling</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Processes vs threads — creation, states, context switch</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CPU scheduling: FCFS, SJF, Round Robin, Priority</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Memory management: paging, segmentation</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Virtual memory, page replacement algorithms</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Deadlocks: conditions, prevention, detection</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">Processes vs threads — states, PCB, context switching</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">CPU scheduling: FCFS, SJF, Round Robin, Priority</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Memory management: paging, segmentation, fragmentation</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Virtual memory, page replacement algorithms (LRU, FIFO)</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">Deadlocks: Coffman conditions, prevention, detection</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Set up WSL2 or a Linux VM. Practise ls, cd, grep, ps, top, chmod, cron. 30 mins of shell daily.</div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Set up WSL2 or a Linux VM. Practise ls, cd, grep, ps, top, chmod, cron — 30 mins of shell daily from now on.</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 06</span>
-      <span class="week-topic">Networking — OSI, TCP/IP, DNS, HTTP</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 06</span><span class="wt">Networking — OSI model, TCP/IP, DNS, HTTP/S</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">OSI 7-layer model — each layer, what it does</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">TCP vs UDP, IP addressing, subnetting</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">DNS, DHCP, routing, ARP</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">HTTP/HTTPS, TLS, certificates, REST</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">NetworkChuck: subnetting + VLAN videos</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">OSI 7-layer model — each layer, protocols, purpose</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">TCP vs UDP, IP addressing, subnetting, CIDR notation</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">DNS, DHCP, ARP, routing protocols (OSPF, BGP basics)</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">HTTP/HTTPS, TLS handshake, certificates, REST APIs</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">NetworkChuck: subnetting and VLAN video series</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Use Wireshark to capture and read a packet. Understanding real traffic cements the theory fast.</div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Use Wireshark to capture and analyse real packets. Reading live traffic cements theory far faster than passive notes.</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 07</span>
-      <span class="week-topic">Computer architecture — logic gates to CPU</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 07</span><span class="wt">Computer architecture — logic gates to CPU</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Nand2Tetris Part 1: Boolean logic, gates</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Nand2Tetris: ALU, adders, multiplexors</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Memory chips, flip-flops, RAM</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Fetch-decode-execute cycle, instruction sets</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Pipelining, caching, CISC vs RISC</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">Nand2Tetris Part 1: Boolean logic, basic gates</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">Nand2Tetris: ALU design, adders, multiplexors</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Memory chips, flip-flops, registers, RAM architecture</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Fetch-decode-execute cycle, instruction sets (ISA)</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">Pipelining, cache hierarchy, CISC vs RISC comparison</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Complete Nand2Tetris Project 1 (build all basic logic gates in the HDL simulator).</div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Complete Nand2Tetris Project 1 — build all basic logic gates in the HDL simulator. Hands-on is the whole point.</div></div></div>
       </div>
     </div>
   </div>
 
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 08</span>
-      <span class="week-topic">Databases — SQL, normalisation, ACID</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 08</span><span class="wt">Databases — SQL, normalisation, ACID + July checkpoint</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
     </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">SQL: SELECT, WHERE, JOIN, GROUP BY, ORDER BY</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">ER diagrams, primary keys, foreign keys</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Normalisation: 1NF, 2NF, 3NF, BCNF</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">ACID properties, transactions, rollback</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Concurrency: locks, isolation levels, deadlocks in DB</div></div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">SQL: SELECT, WHERE, JOIN types, GROUP BY, subqueries</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">ER modelling, primary keys, foreign keys, relationships</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Normalisation: 1NF, 2NF, 3NF, BCNF — with examples</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">ACID properties — atomicity, consistency, isolation, durability</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">Concurrency: locks, isolation levels, deadlocks in databases</span></div>
+          </div>
         </div>
-        <div class="sec-label">Weekend goal + Month 2 checkpoint</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Design and build a small PostgreSQL database (e.g. a library system). Write at least 10 different queries.</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div id="aug" class="month-block">
-  <div class="month-hdr">
-    <span class="month-badge b3">August · Month 3</span>
-    <span class="month-title">Security, Ethics & Project prep</span>
-    <span class="month-sub">Weeks 9–13 · Cybersecurity + Ethics + Research planning</span>
-  </div>
-
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 09</span>
-      <span class="week-topic">Cybersecurity — CIA triad, encryption, attacks</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
-    </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CIA triad, threat modelling, risk frameworks</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Symmetric vs asymmetric encryption, PKI, TLS</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Common attacks: phishing, SQL injection, XSS, MITM</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">TryHackMe: Pre-Security path — start modules</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Authentication: MFA, OAuth, password hashing</div></div>
-        </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Complete TryHackMe "How the web works" room. Hands-on beats passive reading for security.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 10</span>
-      <span class="week-topic">Security compliance + GDPR + ISO 27001</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
-    </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">GDPR: key principles, data rights, lawful basis</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">ISO 27001 framework overview, controls</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Risk assessment methodology, impact vs likelihood</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Security policies: AUP, incident response, BCP</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Google IT Security course: compliance section</div></div>
-        </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Write a 1-page mock data breach incident response plan. Applying frameworks to a scenario is exactly what coursework asks for.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 11</span>
-      <span class="week-topic">Ethics — AI bias, surveillance, responsible tech</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
-    </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Ethical frameworks: utilitarianism, deontology, virtue ethics</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">AI bias: facial recognition, hiring algorithms, datasets</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Surveillance capitalism, data privacy, digital rights</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">ACM and IEEE codes of conduct</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">MIT AI Ethics: edX modules 1–3</div></div>
-        </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Write a 300-word ethics analysis of a real AI case (e.g. Amazon hiring tool bias). Practise the structure: describe → apply framework → critique.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 12</span>
-      <span class="week-topic">Masters project planning — literature, topic, tools</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
-    </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Browse NeurIPS / ACL / USENIX 2024 papers — note interesting areas</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Narrow to 3 possible project topics. Write 1 paragraph each.</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Find 5 key papers per topic on Google Scholar</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Set up Zotero, organise references, start reading</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Write a rough 1-page project proposal for your top topic</div></div>
-        </div>
-        <div class="sec-label">Weekend goal</div>
-        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Have a research log with at least 10 annotated papers. This becomes the skeleton of your literature review.</div>
-      </div>
-    </div>
-  </div>
-
-  <div class="week-card" data-hrs="18">
-    <div class="week-hdr" onclick="toggleWeek(this)">
-      <span class="week-num">Wk 13</span>
-      <span class="week-topic">Full review + UK arrival prep</span>
-      <span class="week-hrs">~18 hrs</span>
-      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
-      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
-    </div>
-    <div class="week-detail">
-      <div class="detail-inner">
-        <div class="sec-label">Day by day</div>
-        <div class="day-grid">
-          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Revisit weakest topic from each month</div></div>
-          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Python — write 3 programs from scratch, no help</div></div>
-          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">SQL — 15 fresh SQLZoo problems</div></div>
-          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Flip through all your concept notes from 12 weeks</div></div>
-          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">UK prep: bank account, NI number, accommodation checklist</div></div>
-        </div>
-        <div class="sec-label">Final checkpoint — you're ready if you can:</div>
-        <div class="deliverable" style="flex-direction:column;gap:4px;">
-          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Write a Python class with file I/O from memory</span></div>
-          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Explain the OSI model and TCP handshake</span></div>
-          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Write a JOIN query and explain ACID</span></div>
-          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Describe your Masters project topic idea clearly</span></div>
-        </div>
+        <div><div class="dlbl">Month 2 checkpoint</div><div class="gbox"><div class="gbox-t">Design and build a PostgreSQL database (e.g. a library system). Write 10 different queries. Stuck? Revise weeks 5–8.</div></div></div>
       </div>
     </div>
   </div>
 </div>
 
-<div class="tips-card">
-  <div class="sec-label" style="margin-bottom:4px;">Key reminders</div>
-  <div class="tip-row"><span class="tip-n">01</span><span>Tick off each week only when you've done the weekend project too — not just the daily videos.</span></div>
-  <div class="tip-row"><span class="tip-n">02</span><span>Every month ends with a checkpoint. If you can't pass it, spend an extra few days before moving on.</span></div>
-  <div class="tip-row"><span class="tip-n">03</span><span>Push every project and exercise to GitHub. When you arrive in the UK, you'll have a portfolio to show supervisors.</span></div>
-  <div class="tip-row"><span class="tip-n">04</span><span>Start the Masters project literature search in week 12 — not "later". 60 credits means it starts on day one of the program.</span></div>
-  <div class="tip-row"><span class="tip-n">05</span><span>Also sort in August: UK bank account (Monzo/Starling work without a UK address), NI number application, and NHS registration.</span></div>
-</div>
+<!-- AUGUST -->
+<div class="mblock" id="aug">
+  <div class="mhdr">
+    <span class="mbadge b3">Month 03 — August</span>
+    <span class="mtitle">Security, Ethics & Research</span>
+    <span class="mmeta">Weeks 9–13 · Cybersecurity + Ethics + Project planning</span>
+  </div>
+
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 09</span><span class="wt">Cybersecurity — CIA triad, encryption, attack types</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
+    </div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">CIA triad, threat modelling, attack surfaces</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">Symmetric vs asymmetric encryption, PKI, TLS</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Common attacks: phishing, SQL injection, XSS, MITM</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">TryHackMe: Pre-Security path — start core modules</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">Authentication: MFA, OAuth 2.0, password hashing (bcrypt)</span></div>
+          </div>
+        </div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Complete TryHackMe "How the web works" room. Hands-on beats passive reading for security, always.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 10</span><span class="wt">Security management — GDPR, ISO 27001, risk frameworks</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
+    </div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">GDPR: key principles, data rights, lawful basis for processing</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">ISO 27001 framework overview, information security controls</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Risk assessment: impact vs likelihood, risk registers</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Security policies: AUP, incident response plans, BCP/DR</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">Google IT Security course: compliance and governance section</span></div>
+          </div>
+        </div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Write a 1-page mock data breach incident response plan. Applying frameworks to scenarios is exactly what coursework asks for.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 11</span><span class="wt">Ethics — AI bias, surveillance, responsible technology</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
+    </div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">Ethical frameworks: utilitarianism, deontology, virtue ethics</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">AI bias in practice: facial recognition, hiring algorithms</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Surveillance capitalism, data privacy, digital rights</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">ACM and IEEE codes of professional conduct</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">MIT AI Ethics edX: modules 1–3</span></div>
+          </div>
+        </div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Write 300 words analysing a real AI ethics case (e.g. Amazon hiring tool). Structure: describe → apply framework → critique → conclude.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 12</span><span class="wt">Masters project planning — topic, literature, tools</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
+    </div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">Browse NeurIPS / ACL / USENIX 2024 papers — note interesting areas</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">Narrow to 3 possible topics. Write 1 paragraph on each.</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">Find 5 key papers per topic on Google Scholar</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Install Zotero, organise references, begin reading actively</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">Write a rough 1-page project proposal for your top topic</span></div>
+          </div>
+        </div>
+        <div><div class="dlbl">Weekend goal</div><div class="gbox"><div class="gbox-t">Research log with 10 annotated papers. This becomes the skeleton of your literature review chapter in the UK.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wk" data-hrs="18">
+    <div class="wk-row" onclick="tw(this)">
+      <span class="wn">Wk 13</span><span class="wt">Full review + UK arrival preparation</span>
+      <span class="wh">~18 hrs</span>
+      <button class="dbtn" onclick="event.stopPropagation();md(this)">Mark done</button>
+      <em class="chv">↓</em>
+    </div>
+    <div class="wkd">
+      <div class="dwrap">
+        <div><div class="dlbl">Day by day</div>
+          <div class="dlist">
+            <div class="di"><span class="did">Mon</span><span class="dit">Revisit the weakest topic from each month</span></div>
+            <div class="di"><span class="did">Tue</span><span class="dit">Python: write 3 programs from scratch with no help</span></div>
+            <div class="di"><span class="did">Wed</span><span class="dit">SQL: complete 15 fresh SQLZoo problems</span></div>
+            <div class="di"><span class="did">Thu</span><span class="dit">Review all concept notes from 13 weeks of study</span></div>
+            <div class="di"><span class="did">Fri</span><span class="dit">UK admin: Monzo/Starling bank, NI number, NHS, accommodation</span></div>
+          </div>
+        </div>
+        <div><div class="dlbl">You're ready if you can</div><div class="gbox"><div class="gbox-t">Write Python OOP from memory. Explain the OSI model. Write a JOIN query. Describe your project topic in 2 clear sentences.</div></div></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="fc">
+    <div class="fc-lbl">Final self-check before you fly</div>
+    <div class="fci"><span class="fcd"></span>Write a Python class with file I/O from memory — no Google</div>
+    <div class="fci"><span class="fcd"></span>Explain the OSI model and what happens in a TCP 3-way handshake</div>
+    <div class="fci"><span class="fcd"></span>Write a multi-table SQL JOIN query and explain ACID</div>
+    <div class="fci"><span class="fcd"></span>Describe your Masters project topic idea in 2 clear sentences</div>
+    <div class="fci"><span class="fcd"></span>GitHub has at least 3 projects from the past 3 months</div>
+    <div class="fci"><span class="fcd"></span>Monzo/Starling bank open, NI number applied, accommodation sorted</div>
+  </div>
 </div>
 
+<div class="tips">
+  <div class="sec-lbl" style="margin-bottom:16px;">Notes</div>
+  <div class="tgrid">
+    <div class="ti"><span class="tn">01</span><span class="tt">All 9 modules are core Level 7 — no electives, no skipping. Every module needs preparation before September.</span></div>
+    <div class="ti"><span class="tn">02</span><span class="tt">Only tick a week done after completing the weekend project too. Videos alone are not enough.</span></div>
+    <div class="ti"><span class="tn">03</span><span class="tt">Push every exercise and project to GitHub. You'll arrive with a real portfolio to show supervisors.</span></div>
+    <div class="ti"><span class="tn">04</span><span class="tt">Good YouTube: Computerphile, NetworkChuck, CS Dojo, Fireship. 15-minute videos daily add up over 90 days.</span></div>
+    <div class="ti"><span class="tn">05</span><span class="tt">Start the Masters project search in week 12, not "later". A head start on literature is a huge advantage.</span></div>
+    <div class="ti"><span class="tn">06</span><span class="tt">UK admin in August: Monzo/Starling works before you arrive. NI number and GP registration take time — start early.</span></div>
+  </div>
+</div>
+
+<footer>
+  <span>MSc CS prep plan · June–August 2026</span>
+  <span>All resources free to access</span>
+</footer>
+
+</div>
 <script>
-function toggleWeek(hdr){
-  const detail=hdr.nextElementSibling;
-  const icon=hdr.querySelector('.expand-icon');
-  detail.classList.toggle('open');
-  icon.style.transform=detail.classList.contains('open')?'rotate(180deg)':'rotate(0deg)';
+function tw(row){
+  const d=row.nextElementSibling;
+  const c=row.querySelector('.chv');
+  d.classList.toggle('o');
+  c.classList.toggle('o');
 }
-function markDone(btn){
-  const card=btn.closest('.week-card');
-  const isDone=card.dataset.done==='true';
-  card.dataset.done=isDone?'false':'true';
-  if(!isDone){
-    btn.innerHTML='<i class="ti ti-circle-check"></i> Done';
-    btn.classList.add('done');
-    card.classList.add('done');
-  } else {
-    btn.innerHTML='<i class="ti ti-circle"></i> Done';
-    btn.classList.remove('done');
-    card.classList.remove('done');
-  }
-  recalc();
+function md(btn){
+  const card=btn.closest('.wk');
+  const was=card.dataset.done==='1';
+  card.dataset.done=was?'0':'1';
+  btn.textContent=was?'Mark done':'✓ Done';
+  was?btn.classList.remove('on'):btn.classList.add('on');
+  was?card.classList.remove('done'):card.classList.add('done');
+  rc();
 }
-function recalc(){
-  const all=document.querySelectorAll('.week-card');
-  let done=0,hrs=0;
-  all.forEach(c=>{
-    if(c.dataset.done==='true'){done++;hrs+=parseInt(c.dataset.hrs)||0;}
-  });
-  const total=all.length;
-  const pct=Math.round(done/total*100);
-  document.getElementById('pfill').style.width=pct+'%';
-  document.getElementById('pct').textContent=pct+'%';
-  document.getElementById('s-weeks').textContent=done+'/'+total;
-  document.getElementById('s-hrs').textContent=hrs;
+function rc(){
+  const all=document.querySelectorAll('.wk');
+  let d=0,h=0;
+  all.forEach(c=>{if(c.dataset.done==='1'){d++;h+=parseInt(c.dataset.hrs)||0;}});
+  const p=Math.round(d/all.length*100);
+  document.getElementById('pfill').style.width=p+'%';
+  document.getElementById('pct').textContent=p+'%';
+  document.getElementById('sw').textContent=d+'/'+all.length;
+  document.getElementById('sh').textContent=h;
 }
-function jump(id){
-  const el=document.getElementById(id);
-  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
-}
+(function(){
+  const t=new Date('2026-09-01');
+  const n=new Date();
+  const diff=Math.ceil((t-n)/864e5);
+  document.getElementById('days-left').textContent=diff>0?diff:'—';
+})();
 </script>
+</body>
+</html>
