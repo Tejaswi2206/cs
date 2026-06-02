@@ -725,35 +725,86 @@ footer{opacity:.8;}
 </div>
 <script>
 function tw(row){
-  const d=row.nextElementSibling;
-  const c=row.querySelector('.chv');
+  const d = row.nextElementSibling;
+  const c = row.querySelector('.chv');
   d.classList.toggle('o');
   c.classList.toggle('o');
 }
+
 function md(btn){
-  const card=btn.closest('.wk');
-  const was=card.dataset.done==='1';
-  card.dataset.done=was?'0':'1';
-  btn.textContent=was?'Mark done':'✓ Done';
-  was?btn.classList.remove('on'):btn.classList.add('on');
-  was?card.classList.remove('done'):card.classList.add('done');
+  const card = btn.closest('.wk');
+  const index = [...document.querySelectorAll('.wk')].indexOf(card);
+
+  const was = card.dataset.done === '1';
+  card.dataset.done = was ? '0' : '1';
+
+  btn.textContent = was ? 'Mark done' : '✓ Done';
+  btn.classList.toggle('on', !was);
+  card.classList.toggle('done', !was);
+
+  saveProgress();
   rc();
 }
-function rc(){
-  const all=document.querySelectorAll('.wk');
-  let d=0,h=0;
-  all.forEach(c=>{if(c.dataset.done==='1'){d++;h+=parseInt(c.dataset.hrs)||0;}});
-  const p=Math.round(d/all.length*100);
-  document.getElementById('pfill').style.width=p+'%';
-  document.getElementById('pct').textContent=p+'%';
-  document.getElementById('sw').textContent=d+'/'+all.length;
-  document.getElementById('sh').textContent=h;
+
+function saveProgress(){
+  const progress = [];
+
+  document.querySelectorAll('.wk').forEach(card => {
+    progress.push(card.dataset.done === '1');
+  });
+
+  localStorage.setItem('msc-study-progress', JSON.stringify(progress));
 }
+
+function loadProgress(){
+  const saved = localStorage.getItem('msc-study-progress');
+
+  if(!saved) return;
+
+  const progress = JSON.parse(saved);
+
+  document.querySelectorAll('.wk').forEach((card, index) => {
+    if(progress[index]){
+      card.dataset.done = '1';
+      card.classList.add('done');
+
+      const btn = card.querySelector('.dbtn');
+      btn.textContent = '✓ Done';
+      btn.classList.add('on');
+    }
+  });
+}
+
+function rc(){
+  const all = document.querySelectorAll('.wk');
+  let d = 0;
+  let h = 0;
+
+  all.forEach(card => {
+    if(card.dataset.done === '1'){
+      d++;
+      h += parseInt(card.dataset.hrs) || 0;
+    }
+  });
+
+  const p = Math.round((d / all.length) * 100);
+
+  document.getElementById('pfill').style.width = p + '%';
+  document.getElementById('pct').textContent = p + '%';
+  document.getElementById('sw').textContent = d + '/' + all.length;
+  document.getElementById('sh').textContent = h;
+}
+
 (function(){
-  const t=new Date('2026-09-01');
-  const n=new Date();
-  const diff=Math.ceil((t-n)/864e5);
-  document.getElementById('days-left').textContent=diff>0?diff:'—';
+  const t = new Date('2026-09-01');
+  const n = new Date();
+  const diff = Math.ceil((t - n) / 864e5);
+
+  document.getElementById('days-left').textContent =
+    diff > 0 ? diff : '—';
+
+  loadProgress();
+  rc();
 })();
 </script>
 </body>
