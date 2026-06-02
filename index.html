@@ -1,682 +1,514 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MSc CS — 3 Month Prep Plan</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+
 <style>
-  :root {
-    --bg: #0a0a0f;
-    --surface: #12121a;
-    --card: #1a1a28;
-    --border: #2a2a40;
-    --accent: #5b6fff;
-    --accent2: #ff6b6b;
-    --accent3: #00e5a0;
-    --text: #e8e8f0;
-    --muted: #7878a0;
-    --june: #5b6fff;
-    --july: #ff6b6b;
-    --aug: #00e5a0;
-  }
-
-  * { margin: 0; padding: 0; box-sizing: border-box; }
-
-  body {
-    background: var(--bg);
-    color: var(--text);
-    font-family: 'DM Mono', monospace;
-    min-height: 100vh;
-    overflow-x: hidden;
-  }
-
-  /* Background grid */
-  body::before {
-    content: '';
-    position: fixed;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(91,111,255,0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(91,111,255,0.04) 1px, transparent 1px);
-    background-size: 40px 40px;
-    pointer-events: none;
-    z-index: 0;
-  }
-
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
-    padding: 0 24px 80px;
-    position: relative;
-    z-index: 1;
-  }
-
-  /* Header */
-  header {
-    padding: 60px 0 48px;
-    border-bottom: 1px solid var(--border);
-    margin-bottom: 48px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .tag {
-    display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.2em;
-    text-transform: uppercase;
-    color: var(--accent);
-    border: 1px solid var(--accent);
-    padding: 4px 10px;
-    border-radius: 2px;
-    margin-bottom: 20px;
-  }
-
-  h1 {
-    font-family: 'Syne', sans-serif;
-    font-size: clamp(32px, 6vw, 56px);
-    font-weight: 800;
-    line-height: 1.05;
-    letter-spacing: -0.02em;
-    margin-bottom: 16px;
-  }
-
-  h1 span {
-    background: linear-gradient(135deg, var(--accent), var(--accent2));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-  }
-
-  .subtitle {
-    color: var(--muted);
-    font-size: 13px;
-    letter-spacing: 0.05em;
-  }
-
-  /* Progress bar */
-  .progress-section {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 24px;
-    margin-bottom: 48px;
-    animation: fadeUp 0.6s 0.1s ease both;
-  }
-
-  .progress-label {
-    display: flex;
-    justify-content: space-between;
-    font-size: 11px;
-    color: var(--muted);
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-
-  .progress-bar {
-    height: 6px;
-    background: var(--border);
-    border-radius: 3px;
-    overflow: hidden;
-  }
-
-  .progress-fill {
-    height: 100%;
-    background: linear-gradient(90deg, var(--june), var(--july), var(--aug));
-    width: 0%;
-    border-radius: 3px;
-    transition: width 1.5s cubic-bezier(0.4, 0, 0.2, 1);
-  }
-
-  .months-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 8px;
-    margin-top: 16px;
-  }
-
-  .month-dot {
-    text-align: center;
-    font-size: 10px;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    padding: 6px;
-    border-radius: 4px;
-    border: 1px solid var(--border);
-    cursor: pointer;
-    transition: all 0.2s;
-  }
-
-  .month-dot.june { color: var(--june); border-color: var(--june); }
-  .month-dot.july { color: var(--july); border-color: var(--july); }
-  .month-dot.aug { color: var(--aug); border-color: var(--aug); }
-  .month-dot:hover { opacity: 0.7; }
-
-  /* Month sections */
-  .month-section {
-    margin-bottom: 40px;
-    animation: fadeUp 0.6s ease both;
-  }
-
-  .month-section:nth-child(1) { animation-delay: 0.2s; }
-  .month-section:nth-child(2) { animation-delay: 0.35s; }
-  .month-section:nth-child(3) { animation-delay: 0.5s; }
-
-  .month-header {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-    margin-bottom: 20px;
-  }
-
-  .month-number {
-    font-family: 'Syne', sans-serif;
-    font-size: 11px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    padding: 6px 14px;
-    border-radius: 4px;
-  }
-
-  .june-tag { background: rgba(91,111,255,0.15); color: var(--june); border: 1px solid rgba(91,111,255,0.3); }
-  .july-tag { background: rgba(255,107,107,0.15); color: var(--july); border: 1px solid rgba(255,107,107,0.3); }
-  .aug-tag { background: rgba(0,229,160,0.15); color: var(--aug); border: 1px solid rgba(0,229,160,0.3); }
-
-  .month-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 20px;
-    font-weight: 700;
-  }
-
-  .modules-grid {
-    display: grid;
-    gap: 12px;
-  }
-
-  /* Module card */
-  .module-card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 10px;
-    padding: 20px 24px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 16px;
-    align-items: start;
-    transition: border-color 0.2s, transform 0.2s;
-    cursor: default;
-  }
-
-  .module-card:hover {
-    border-color: var(--accent);
-    transform: translateX(4px);
-  }
-
-  .module-card.june-card:hover { border-color: var(--june); }
-  .module-card.july-card:hover { border-color: var(--july); }
-  .module-card.aug-card:hover { border-color: var(--aug); }
-
-  .module-code {
-    font-size: 10px;
-    color: var(--muted);
-    letter-spacing: 0.15em;
-    margin-bottom: 4px;
-  }
-
-  .module-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 15px;
-    font-weight: 600;
-    margin-bottom: 12px;
-  }
-
-  .resources {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-  }
-
-  .resource-link {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-size: 11px;
-    color: var(--muted);
-    text-decoration: none;
-    transition: color 0.2s;
-  }
-
-  .resource-link::before {
-    content: '→';
-    font-size: 10px;
-  }
-
-  .resource-link:hover { color: var(--text); }
-
-  .credits-badge {
-    font-size: 11px;
-    color: var(--muted);
-    background: var(--surface);
-    border: 1px solid var(--border);
-    padding: 4px 10px;
-    border-radius: 20px;
-    white-space: nowrap;
-    align-self: flex-start;
-  }
-
-  /* Skills section */
-  .skills-section {
-    margin-top: 48px;
-    animation: fadeUp 0.6s 0.6s ease both;
-  }
-
-  .section-heading {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--muted);
-    margin-bottom: 20px;
-  }
-
-  .skills-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
-    gap: 10px;
-  }
-
-  .skill-chip {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: 8px;
-    padding: 14px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-  }
-
-  .skill-icon {
-    width: 28px;
-    height: 28px;
-    border-radius: 6px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 14px;
-    flex-shrink: 0;
-  }
-
-  .skill-name {
-    font-size: 12px;
-    font-family: 'Syne', sans-serif;
-    font-weight: 600;
-  }
-
-  /* Tips */
-  .tips-section {
-    margin-top: 40px;
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-left: 3px solid var(--accent);
-    border-radius: 0 10px 10px 0;
-    padding: 24px;
-    animation: fadeUp 0.6s 0.7s ease both;
-  }
-
-  .tip {
-    display: flex;
-    gap: 12px;
-    font-size: 12px;
-    color: var(--muted);
-    line-height: 1.6;
-    margin-bottom: 10px;
-  }
-
-  .tip:last-child { margin-bottom: 0; }
-
-  .tip-num {
-    color: var(--accent);
-    font-weight: 600;
-    flex-shrink: 0;
-  }
-
-  /* Checkbox */
-  .check-wrapper {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-top: 10px;
-  }
-
-  .check-label {
-    font-size: 11px;
-    color: var(--muted);
-    cursor: pointer;
-    user-select: none;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-
-  .check-label input[type="checkbox"] {
-    accent-color: var(--accent);
-    width: 13px;
-    height: 13px;
-    cursor: pointer;
-  }
-
-  .check-label.checked {
-    color: var(--accent3);
-    text-decoration: line-through;
-  }
-
-  /* Animations */
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(20px); }
-    to { opacity: 1; transform: translateY(0); }
-  }
-
-  /* Footer */
-  footer {
-    margin-top: 64px;
-    padding-top: 24px;
-    border-top: 1px solid var(--border);
-    font-size: 11px;
-    color: var(--muted);
-    text-align: center;
-    letter-spacing: 0.1em;
-    animation: fadeUp 0.6s 0.8s ease both;
-  }
-
-  @media (max-width: 600px) {
-    .module-card { grid-template-columns: 1fr; }
-    .months-grid { grid-template-columns: 1fr; }
-  }
+*{box-sizing:border-box;margin:0;padding:0;}
+.wrap{padding:1.5rem 0 2rem;}
+.hero-label{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:.4rem;}
+.hero-title{font-size:22px;font-weight:500;color:var(--color-text-primary);margin-bottom:.2rem;}
+.hero-sub{font-size:13px;color:var(--color-text-secondary);margin-bottom:1.5rem;}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-bottom:1.5rem;}
+.stat{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.75rem 1rem;}
+.stat-n{font-size:22px;font-weight:500;color:var(--color-text-primary);}
+.stat-l{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.prog-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-bottom:1.5rem;}
+.prog-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:.6rem;}
+.prog-label{font-size:13px;font-weight:500;color:var(--color-text-primary);}
+.prog-pct{font-size:13px;color:var(--color-text-secondary);}
+.track{height:8px;background:var(--color-background-secondary);border-radius:99px;overflow:hidden;}
+.fill{height:100%;border-radius:99px;transition:width .8s cubic-bezier(.4,0,.2,1);}
+.month-nav{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:.75rem;}
+.mnav{font-size:11px;padding:6px;border-radius:var(--border-radius-md);border:0.5px solid;text-align:center;cursor:pointer;transition:opacity .15s;font-weight:500;}
+.mnav:hover{opacity:.7;}
+.m1{color:#185fa5;border-color:#185fa5;background:#e6f1fb;}
+.m2{color:#854f0b;border-color:#854f0b;background:#faeeda;}
+.m3{color:#0f6e56;border-color:#0f6e56;background:#e1f5ee;}
+.month-block{margin-bottom:2rem;}
+.month-hdr{display:flex;align-items:center;gap:12px;margin-bottom:1rem;flex-wrap:wrap;}
+.month-badge{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;padding:4px 12px;border-radius:var(--border-radius-md);border:0.5px solid;}
+.b1{color:#185fa5;border-color:#185fa5;background:#e6f1fb;}
+.b2{color:#854f0b;border-color:#854f0b;background:#faeeda;}
+.b3{color:#0f6e56;border-color:#0f6e56;background:#e1f5ee;}
+.month-title{font-size:18px;font-weight:500;color:var(--color-text-primary);}
+.month-sub{font-size:12px;color:var(--color-text-tertiary);margin-left:auto;}
+.week-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);margin-bottom:10px;overflow:hidden;transition:border-color .2s;}
+.week-card.done{opacity:.6;}
+.week-hdr{display:flex;align-items:center;gap:12px;padding:1rem 1.25rem;cursor:pointer;}
+.week-num{font-size:11px;font-family:var(--font-mono);color:var(--color-text-tertiary);min-width:40px;}
+.week-topic{font-size:14px;font-weight:500;color:var(--color-text-primary);flex:1;}
+.week-hrs{font-size:11px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:3px 10px;border-radius:99px;white-space:nowrap;}
+.chk{display:flex;align-items:center;gap:5px;font-size:12px;padding:5px 10px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);cursor:pointer;background:none;color:var(--color-text-secondary);transition:all .15s;margin-left:8px;}
+.chk:hover{background:var(--color-background-secondary);}
+.chk.done{color:#0f6e56;border-color:#0f6e56;background:#e1f5ee;}
+.expand-icon{font-size:16px;color:var(--color-text-tertiary);transition:transform .2s;}
+.week-detail{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+.week-detail.open{max-height:600px;}
+.detail-inner{border-top:0.5px solid var(--color-border-tertiary);padding:1rem 1.25rem;}
+.day-grid{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;margin-bottom:1rem;}
+.day-box{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem .75rem;}
+.day-name{font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:4px;}
+.day-task{font-size:11px;color:var(--color-text-secondary);line-height:1.5;}
+.deliverable{display:flex;align-items:flex-start;gap:8px;font-size:12px;color:var(--color-text-secondary);background:var(--color-background-secondary);padding:.6rem .75rem;border-radius:var(--border-radius-md);}
+.del-icon{font-size:14px;color:var(--color-text-info);flex-shrink:0;margin-top:1px;}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.1em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:6px;}
+.schedule-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:1rem;}
+.sched-item{background:var(--color-background-secondary);border-radius:var(--border-radius-md);padding:.6rem .75rem;display:flex;gap:8px;align-items:center;}
+.sched-time{font-size:11px;font-family:var(--font-mono);color:var(--color-text-tertiary);min-width:80px;}
+.sched-act{font-size:12px;color:var(--color-text-secondary);}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:1.5rem 0;}
+.daily-section{margin-bottom:1.5rem;}
+.daily-hdr{font-size:13px;font-weight:500;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.daily-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(190px,1fr));gap:8px;}
+.daily-slot{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-md);padding:.75rem 1rem;}
+.slot-time{font-size:10px;font-family:var(--font-mono);color:var(--color-text-tertiary);margin-bottom:3px;}
+.slot-act{font-size:12px;font-weight:500;color:var(--color-text-primary);}
+.slot-note{font-size:11px;color:var(--color-text-secondary);margin-top:2px;}
+.tips-card{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:1.25rem 1.5rem;margin-top:1.5rem;}
+.tip-row{display:flex;gap:10px;font-size:12px;color:var(--color-text-secondary);line-height:1.6;padding:6px 0;border-bottom:0.5px solid var(--color-border-tertiary);}
+.tip-row:last-child{border-bottom:none;}
+.tip-n{font-family:var(--font-mono);font-size:10px;color:var(--color-text-tertiary);width:20px;flex-shrink:0;padding-top:2px;}
 </style>
-</head>
-<body>
-<div class="container">
 
-  <header>
-    <div class="tag">MSc Computer Science · UK Prep</div>
-    <h1>Your <span>3-Month</span><br>Study Plan</h1>
-    <p class="subtitle">June → August 2026 · 9 Core Modules · All Free Resources</p>
-  </header>
+<h2 class="sr-only">3-month week-by-week study timetable and tracker for MSc CS preparation, June–August 2026</h2>
 
-  <!-- Progress tracker -->
-  <div class="progress-section">
-    <div class="progress-label">
-      <span>Overall Progress</span>
-      <span id="progress-pct">0%</span>
+<div class="wrap">
+<div class="hero-label">MSc Computer Science · Pre-arrival prep</div>
+<div class="hero-title">3-Month Timetable & Tracker</div>
+<div class="hero-sub">June 2 → August 31, 2026 · Flying to UK in September · 13 weeks</div>
+
+<div class="stats">
+  <div class="stat"><div class="stat-n" id="s-weeks">0/13</div><div class="stat-l">Weeks done</div></div>
+  <div class="stat"><div class="stat-n" id="s-hrs">0</div><div class="stat-l">Hours logged</div></div>
+  <div class="stat"><div class="stat-n">~2.5</div><div class="stat-l">Hrs per day</div></div>
+  <div class="stat"><div class="stat-n">Sep</div><div class="stat-l">UK departure</div></div>
+</div>
+
+<div class="prog-card">
+  <div class="prog-row"><span class="prog-label">Overall progress</span><span class="prog-pct" id="pct">0%</span></div>
+  <div class="track"><div class="fill" id="pfill" style="width:0%;background:#378add;"></div></div>
+  <div class="month-nav">
+    <div class="mnav m1" onclick="jump('june')"><i class="ti ti-calendar" aria-hidden="true"></i> June</div>
+    <div class="mnav m2" onclick="jump('july')"><i class="ti ti-calendar" aria-hidden="true"></i> July</div>
+    <div class="mnav m3" onclick="jump('aug')"><i class="ti ti-calendar" aria-hidden="true"></i> August</div>
+  </div>
+</div>
+
+<div class="divider"></div>
+
+<div class="daily-section">
+  <div class="daily-hdr"><i class="ti ti-clock" aria-hidden="true" style="font-size:16px;color:var(--color-text-secondary);"></i> Your daily study routine</div>
+  <div class="daily-grid">
+    <div class="daily-slot">
+      <div class="slot-time">07:00 – 08:30</div>
+      <div class="slot-act">Theory session</div>
+      <div class="slot-note">Videos, reading, concepts</div>
     </div>
-    <div class="progress-bar">
-      <div class="progress-fill" id="progress-fill"></div>
+    <div class="daily-slot">
+      <div class="slot-time">10:00 – 11:30</div>
+      <div class="slot-act">Practice session</div>
+      <div class="slot-note">Coding, exercises, problems</div>
     </div>
-    <div class="months-grid">
-      <div class="month-dot june">June</div>
-      <div class="month-dot july">July</div>
-      <div class="month-dot aug">August</div>
+    <div class="daily-slot">
+      <div class="slot-time">Evening</div>
+      <div class="slot-act">Review + notes</div>
+      <div class="slot-note">Summarise what you learned</div>
+    </div>
+    <div class="daily-slot">
+      <div class="slot-time">Weekend</div>
+      <div class="slot-act">Build something</div>
+      <div class="slot-note">Mini project or past paper</div>
     </div>
   </div>
+</div>
 
-  <!-- JUNE -->
-  <div class="month-section" id="june">
-    <div class="month-header">
-      <span class="month-number june-tag">Month 01 — June</span>
-      <span class="month-title">Foundations</span>
-    </div>
-    <div class="modules-grid">
+<div class="divider"></div>
 
-      <div class="module-card june-card">
-        <div>
-          <div class="module-code">7COM2010 · Semester B</div>
-          <div class="module-name">Programming</div>
-          <div class="resources">
-            <a class="resource-link" href="https://cs50p.harvard.edu" target="_blank">Harvard CS50P — Python (Free)</a>
-            <a class="resource-link" href="https://leetcode.com" target="_blank">LeetCode — Daily Practice</a>
-            <a class="resource-link" href="https://replit.com" target="_blank">Replit — Code in browser</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-      <div class="module-card june-card">
-        <div>
-          <div class="module-code">7COM2014 · Semester B</div>
-          <div class="module-name">Principles of AI and Programming</div>
-          <div class="resources">
-            <a class="resource-link" href="https://cs50.harvard.edu/ai" target="_blank">Harvard CS50 AI — Free</a>
-            <a class="resource-link" href="https://www.fast.ai" target="_blank">fast.ai — Practical AI</a>
-            <a class="resource-link" href="https://www.youtube.com/@3blue1brown" target="_blank">3Blue1Brown Neural Networks</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-      <div class="module-card june-card">
-        <div>
-          <div class="module-code">7COM2011 · Semester A</div>
-          <div class="module-name">Introduction to Embedded Systems</div>
-          <div class="resources">
-            <a class="resource-link" href="https://www.edx.org/learn/embedded-systems" target="_blank">edX Embedded Systems (Audit Free)</a>
-            <a class="resource-link" href="https://www.youtube.com/@EmbeddedSystems" target="_blank">YouTube — Embedded Engineering</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-    </div>
+<div id="june" class="month-block">
+  <div class="month-hdr">
+    <span class="month-badge b1">June · Month 1</span>
+    <span class="month-title">Foundations</span>
+    <span class="month-sub">Weeks 1–4 · Python + AI + Embedded basics</span>
   </div>
 
-  <!-- JULY -->
-  <div class="month-section" id="july">
-    <div class="month-header">
-      <span class="month-number july-tag">Month 02 — July</span>
-      <span class="month-title">Systems & Data</span>
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 01</span>
+      <span class="week-topic">Python fundamentals — variables, loops, functions</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
     </div>
-    <div class="modules-grid">
-
-      <div class="module-card july-card">
-        <div>
-          <div class="module-code">7COM2021 · Semester A</div>
-          <div class="module-name">Operating Systems and Networks</div>
-          <div class="resources">
-            <a class="resource-link" href="https://www.coursera.org/professional-certificates/google-it-support" target="_blank">Google IT Support — Audit Free</a>
-            <a class="resource-link" href="https://www.networkchuck.com" target="_blank">NetworkChuck — Networking</a>
-            <a class="resource-link" href="https://ocw.mit.edu/courses/6-828-operating-system-engineering-fall-2012/" target="_blank">MIT OCW OS Engineering</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CS50P week 0 — variables, types, input/output</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CS50P week 1 — conditionals, if/elif/else</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">CS50P week 2 — loops, while, for, break</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">CS50P week 3 — exceptions, try/except</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">CS50P week 4 — libraries, pip, imports</div></div>
         </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-      <div class="module-card july-card">
-        <div>
-          <div class="module-code">7COM2024 · Semester B</div>
-          <div class="module-name">Computer Architecture</div>
-          <div class="resources">
-            <a class="resource-link" href="https://www.nand2tetris.org" target="_blank">Nand2Tetris — Free & Excellent</a>
-            <a class="resource-link" href="https://www.coursera.org/learn/build-a-computer" target="_blank">Build a Modern Computer (Coursera)</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-      <div class="module-card july-card">
-        <div>
-          <div class="module-code">7COM2020 · Semester B</div>
-          <div class="module-name">Multi-User Database Systems</div>
-          <div class="resources">
-            <a class="resource-link" href="https://sqlzoo.net" target="_blank">SQLZoo — Interactive SQL</a>
-            <a class="resource-link" href="https://cs186berkeley.net" target="_blank">UC Berkeley CS186 — Free Lectures</a>
-            <a class="resource-link" href="https://www.postgresqltutorial.com" target="_blank">PostgreSQL Tutorial — Free</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- AUGUST -->
-  <div class="month-section" id="aug">
-    <div class="month-header">
-      <span class="month-number aug-tag">Month 03 — August</span>
-      <span class="month-title">Security & Ethics</span>
-    </div>
-    <div class="modules-grid">
-
-      <div class="module-card aug-card">
-        <div>
-          <div class="module-code">7COM2023 · Semester A</div>
-          <div class="module-name">Information Security, Management and Compliance</div>
-          <div class="resources">
-            <a class="resource-link" href="https://tryhackme.com" target="_blank">TryHackMe — Free Beginner Path</a>
-            <a class="resource-link" href="https://www.cybrary.it" target="_blank">Cybrary — Free Tier</a>
-            <a class="resource-link" href="https://www.coursera.org/learn/it-security" target="_blank">Google IT Security (Audit Free)</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-      <div class="module-card aug-card">
-        <div>
-          <div class="module-code">7COM2042 · Semester A</div>
-          <div class="module-name">Responsible Technology for Computer Science</div>
-          <div class="resources">
-            <a class="resource-link" href="https://ocw.mit.edu/courses/sts-047j-ethics-and-the-law-on-the-electronic-frontier-spring-2005/" target="_blank">MIT OCW Ethics & Technology</a>
-            <a class="resource-link" href="https://www.edx.org/learn/ethics/massachusetts-institute-of-technology-ethics-of-ai" target="_blank">MIT AI Ethics (edX, Audit Free)</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">15 credits</span>
-      </div>
-
-      <div class="module-card aug-card">
-        <div>
-          <div class="module-code">7COM2025 · Semester C</div>
-          <div class="module-name">Computer Science Masters Project</div>
-          <div class="resources">
-            <a class="resource-link" href="https://www.ithinkwell.com.au/resources" target="_blank">Academic writing resources</a>
-            <a class="resource-link" href="https://scholar.google.com" target="_blank">Google Scholar — Research papers</a>
-            <a class="resource-link" href="#">Start brainstorming your topic NOW</a>
-          </div>
-          <div class="check-wrapper">
-            <label class="check-label"><input type="checkbox" onchange="updateProgress(this)"> Mark complete</label>
-          </div>
-        </div>
-        <span class="credits-badge">60 credits ⚠️</span>
-      </div>
-
-    </div>
-  </div>
-
-  <!-- Key Skills -->
-  <div class="skills-section">
-    <div class="section-heading">Core Skills to Build Now</div>
-    <div class="skills-grid">
-      <div class="skill-chip">
-        <div class="skill-icon" style="background:rgba(91,111,255,0.15);">🐍</div>
-        <span class="skill-name">Python</span>
-      </div>
-      <div class="skill-chip">
-        <div class="skill-icon" style="background:rgba(255,107,107,0.15);">🐧</div>
-        <span class="skill-name">Linux Terminal</span>
-      </div>
-      <div class="skill-chip">
-        <div class="skill-icon" style="background:rgba(0,229,160,0.15);">🗄️</div>
-        <span class="skill-name">SQL</span>
-      </div>
-      <div class="skill-chip">
-        <div class="skill-icon" style="background:rgba(91,111,255,0.15);">🔀</div>
-        <span class="skill-name">Git / GitHub</span>
-      </div>
-      <div class="skill-chip">
-        <div class="skill-icon" style="background:rgba(255,107,107,0.15);">🔒</div>
-        <span class="skill-name">Cybersecurity Basics</span>
-      </div>
-      <div class="skill-chip">
-        <div class="skill-icon" style="background:rgba(0,229,160,0.15);">🤖</div>
-        <span class="skill-name">AI / ML Fundamentals</span>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Build a CLI calculator or quiz game in Python. Push it to GitHub — week 1 project done.</div>
       </div>
     </div>
   </div>
 
-  <!-- Tips -->
-  <div class="tips-section">
-    <div class="section-heading" style="margin-bottom:16px;">Important Notes</div>
-    <div class="tip">
-      <span class="tip-num">01</span>
-      <span>The Masters Project (7COM2025) is worth 60 credits — that's one third of your whole degree. Start thinking about a project topic as early as possible.</span>
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 02</span>
+      <span class="week-topic">Python advanced — OOP, file I/O, data structures</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
     </div>
-    <div class="tip">
-      <span class="tip-num">02</span>
-      <span>All 9 modules are Core Level 7 — no optional modules, you must prepare for all of them.</span>
-    </div>
-    <div class="tip">
-      <span class="tip-num">03</span>
-      <span>Good YouTube channels: Computerphile (CS concepts), NetworkChuck (networking), CS Dojo (coding), Fireship (quick tech concepts).</span>
-    </div>
-    <div class="tip">
-      <span class="tip-num">04</span>
-      <span>Aim for 2–3 hours of study per day. Consistency beats cramming — small daily progress adds up fast over 3 months.</span>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CS50P week 5 — unit tests</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CS50P week 6 — file I/O, CSV, JSON</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">OOP: classes, objects, inheritance</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Lists, dicts, sets — built-in methods</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">LeetCode: 5 Easy problems (arrays, strings)</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Build a student grade tracker using OOP + CSV files. Good real-world Python practice.</div>
+      </div>
     </div>
   </div>
 
-  <footer>
-    MSc Computer Science Prep Plan · June–August 2026 · All resources are free to access
-  </footer>
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 03</span>
+      <span class="week-topic">AI/ML basics — search, knowledge, neural nets intro</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CS50 AI: Lecture 0 — search algorithms</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CS50 AI: Lecture 1 — knowledge representation</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">CS50 AI: Lecture 2 — uncertainty, probability</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">3Blue1Brown: neural nets series (videos 1–2)</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">3Blue1Brown: neural nets series (videos 3–4)</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Write a 1-page summary of how a neural network learns. Explain it to yourself without notes.</div>
+      </div>
+    </div>
+  </div>
 
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 04</span>
+      <span class="week-topic">Embedded systems intro + June review</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Embedded basics: microcontrollers, C intro</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Memory, I/O ports, registers, interrupts</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">edX embedded systems: lectures 1–2</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Timing diagrams, datasheets practice</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">June review: revisit weak areas</div></div>
+        </div>
+        <div class="sec-label">Month 1 checkpoint</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Can you write a Python script from scratch? Explain backpropagation? If yes — June is solid.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="july" class="month-block">
+  <div class="month-hdr">
+    <span class="month-badge b2">July · Month 2</span>
+    <span class="month-title">Systems & Data</span>
+    <span class="month-sub">Weeks 5–8 · OS + Networks + Architecture + SQL</span>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 05</span>
+      <span class="week-topic">Operating systems — processes, memory, scheduling</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Processes vs threads — creation, states, context switch</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">CPU scheduling: FCFS, SJF, Round Robin, Priority</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Memory management: paging, segmentation</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Virtual memory, page replacement algorithms</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Deadlocks: conditions, prevention, detection</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Set up WSL2 or a Linux VM. Practise ls, cd, grep, ps, top, chmod, cron. 30 mins of shell daily.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 06</span>
+      <span class="week-topic">Networking — OSI, TCP/IP, DNS, HTTP</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">OSI 7-layer model — each layer, what it does</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">TCP vs UDP, IP addressing, subnetting</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">DNS, DHCP, routing, ARP</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">HTTP/HTTPS, TLS, certificates, REST</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">NetworkChuck: subnetting + VLAN videos</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Use Wireshark to capture and read a packet. Understanding real traffic cements the theory fast.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 07</span>
+      <span class="week-topic">Computer architecture — logic gates to CPU</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Nand2Tetris Part 1: Boolean logic, gates</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Nand2Tetris: ALU, adders, multiplexors</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Memory chips, flip-flops, RAM</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Fetch-decode-execute cycle, instruction sets</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Pipelining, caching, CISC vs RISC</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Complete Nand2Tetris Project 1 (build all basic logic gates in the HDL simulator).</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 08</span>
+      <span class="week-topic">Databases — SQL, normalisation, ACID</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">SQL: SELECT, WHERE, JOIN, GROUP BY, ORDER BY</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">ER diagrams, primary keys, foreign keys</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Normalisation: 1NF, 2NF, 3NF, BCNF</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">ACID properties, transactions, rollback</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Concurrency: locks, isolation levels, deadlocks in DB</div></div>
+        </div>
+        <div class="sec-label">Weekend goal + Month 2 checkpoint</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Design and build a small PostgreSQL database (e.g. a library system). Write at least 10 different queries.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="aug" class="month-block">
+  <div class="month-hdr">
+    <span class="month-badge b3">August · Month 3</span>
+    <span class="month-title">Security, Ethics & Project prep</span>
+    <span class="month-sub">Weeks 9–13 · Cybersecurity + Ethics + Research planning</span>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 09</span>
+      <span class="week-topic">Cybersecurity — CIA triad, encryption, attacks</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">CIA triad, threat modelling, risk frameworks</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Symmetric vs asymmetric encryption, PKI, TLS</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Common attacks: phishing, SQL injection, XSS, MITM</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">TryHackMe: Pre-Security path — start modules</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Authentication: MFA, OAuth, password hashing</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Complete TryHackMe "How the web works" room. Hands-on beats passive reading for security.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 10</span>
+      <span class="week-topic">Security compliance + GDPR + ISO 27001</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">GDPR: key principles, data rights, lawful basis</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">ISO 27001 framework overview, controls</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Risk assessment methodology, impact vs likelihood</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Security policies: AUP, incident response, BCP</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Google IT Security course: compliance section</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Write a 1-page mock data breach incident response plan. Applying frameworks to a scenario is exactly what coursework asks for.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 11</span>
+      <span class="week-topic">Ethics — AI bias, surveillance, responsible tech</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Ethical frameworks: utilitarianism, deontology, virtue ethics</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">AI bias: facial recognition, hiring algorithms, datasets</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Surveillance capitalism, data privacy, digital rights</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">ACM and IEEE codes of conduct</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">MIT AI Ethics: edX modules 1–3</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Write a 300-word ethics analysis of a real AI case (e.g. Amazon hiring tool bias). Practise the structure: describe → apply framework → critique.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 12</span>
+      <span class="week-topic">Masters project planning — literature, topic, tools</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Browse NeurIPS / ACL / USENIX 2024 papers — note interesting areas</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Narrow to 3 possible project topics. Write 1 paragraph each.</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">Find 5 key papers per topic on Google Scholar</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Set up Zotero, organise references, start reading</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">Write a rough 1-page project proposal for your top topic</div></div>
+        </div>
+        <div class="sec-label">Weekend goal</div>
+        <div class="deliverable"><i class="ti ti-flag del-icon" aria-hidden="true"></i> Have a research log with at least 10 annotated papers. This becomes the skeleton of your literature review.</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="week-card" data-hrs="18">
+    <div class="week-hdr" onclick="toggleWeek(this)">
+      <span class="week-num">Wk 13</span>
+      <span class="week-topic">Full review + UK arrival prep</span>
+      <span class="week-hrs">~18 hrs</span>
+      <button class="chk" onclick="event.stopPropagation();markDone(this)"><i class="ti ti-circle"></i> Done</button>
+      <i class="ti ti-chevron-down expand-icon" aria-hidden="true"></i>
+    </div>
+    <div class="week-detail">
+      <div class="detail-inner">
+        <div class="sec-label">Day by day</div>
+        <div class="day-grid">
+          <div class="day-box"><div class="day-name">Mon</div><div class="day-task">Revisit weakest topic from each month</div></div>
+          <div class="day-box"><div class="day-name">Tue</div><div class="day-task">Python — write 3 programs from scratch, no help</div></div>
+          <div class="day-box"><div class="day-name">Wed</div><div class="day-task">SQL — 15 fresh SQLZoo problems</div></div>
+          <div class="day-box"><div class="day-name">Thu</div><div class="day-task">Flip through all your concept notes from 12 weeks</div></div>
+          <div class="day-box"><div class="day-name">Fri</div><div class="day-task">UK prep: bank account, NI number, accommodation checklist</div></div>
+        </div>
+        <div class="sec-label">Final checkpoint — you're ready if you can:</div>
+        <div class="deliverable" style="flex-direction:column;gap:4px;">
+          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Write a Python class with file I/O from memory</span></div>
+          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Explain the OSI model and TCP handshake</span></div>
+          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Write a JOIN query and explain ACID</span></div>
+          <div style="display:flex;gap:8px;align-items:center;"><i class="ti ti-circle-check del-icon" aria-hidden="true"></i><span style="font-size:12px;color:var(--color-text-secondary);">Describe your Masters project topic idea clearly</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="tips-card">
+  <div class="sec-label" style="margin-bottom:4px;">Key reminders</div>
+  <div class="tip-row"><span class="tip-n">01</span><span>Tick off each week only when you've done the weekend project too — not just the daily videos.</span></div>
+  <div class="tip-row"><span class="tip-n">02</span><span>Every month ends with a checkpoint. If you can't pass it, spend an extra few days before moving on.</span></div>
+  <div class="tip-row"><span class="tip-n">03</span><span>Push every project and exercise to GitHub. When you arrive in the UK, you'll have a portfolio to show supervisors.</span></div>
+  <div class="tip-row"><span class="tip-n">04</span><span>Start the Masters project literature search in week 12 — not "later". 60 credits means it starts on day one of the program.</span></div>
+  <div class="tip-row"><span class="tip-n">05</span><span>Also sort in August: UK bank account (Monzo/Starling work without a UK address), NI number application, and NHS registration.</span></div>
+</div>
 </div>
 
 <script>
-  // Animate progress bar on load
-  window.addEventListener('load', () => {
-    setTimeout(() => {
-      document.getElementById('progress-fill').style.width = '0%';
-    }, 300);
-  });
-
-  let totalChecks = document.querySelectorAll('input[type="checkbox"]').length;
-
-  function updateProgress(checkbox) {
-    const label = checkbox.closest('.check-label');
-    if (checkbox.checked) {
-      label.classList.add('checked');
-    } else {
-      label.classList.remove('checked');
-    }
-
-    const checked = document.querySelectorAll('input[type="checkbox"]:checked').length;
-    const pct = Math.round((checked / totalChecks) * 100);
-    document.getElementById('progress-fill').style.width = pct + '%';
-    document.getElementById('progress-pct').textContent = pct + '%';
+function toggleWeek(hdr){
+  const detail=hdr.nextElementSibling;
+  const icon=hdr.querySelector('.expand-icon');
+  detail.classList.toggle('open');
+  icon.style.transform=detail.classList.contains('open')?'rotate(180deg)':'rotate(0deg)';
+}
+function markDone(btn){
+  const card=btn.closest('.week-card');
+  const isDone=card.dataset.done==='true';
+  card.dataset.done=isDone?'false':'true';
+  if(!isDone){
+    btn.innerHTML='<i class="ti ti-circle-check"></i> Done';
+    btn.classList.add('done');
+    card.classList.add('done');
+  } else {
+    btn.innerHTML='<i class="ti ti-circle"></i> Done';
+    btn.classList.remove('done');
+    card.classList.remove('done');
   }
+  recalc();
+}
+function recalc(){
+  const all=document.querySelectorAll('.week-card');
+  let done=0,hrs=0;
+  all.forEach(c=>{
+    if(c.dataset.done==='true'){done++;hrs+=parseInt(c.dataset.hrs)||0;}
+  });
+  const total=all.length;
+  const pct=Math.round(done/total*100);
+  document.getElementById('pfill').style.width=pct+'%';
+  document.getElementById('pct').textContent=pct+'%';
+  document.getElementById('s-weeks').textContent=done+'/'+total;
+  document.getElementById('s-hrs').textContent=hrs;
+}
+function jump(id){
+  const el=document.getElementById(id);
+  if(el) el.scrollIntoView({behavior:'smooth',block:'start'});
+}
 </script>
-</body>
-</html>
